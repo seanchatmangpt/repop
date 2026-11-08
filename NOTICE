@@ -1,0 +1,16 @@
+repop — AtomVM wasm kernel + React client monorepo
+
+This repository contains a vendored copy of files originating from the cgap
+workspace (~/cgap), included per Wave-1 resolution R11 (vendored-copy
+attribution law). The vendored copy lives under kernel/crates/ and is
+identified by provenance URN:
+
+    urn:repop:vendor:cgap:<upstream-sha>
+
+The <upstream-sha> placeholder is replaced by the cgap commit SHA at the time
+the vendored copy lands (coordinator action at integration; the placeholder
+form is the lawful state until a vendored file exists under kernel/crates/).
+
+The vendored copy is distributed under its upstream license, reproduced in
+LICENSE-P28-SIL.md. This NOTICE must be carried unmodified with any
+redistribution of the vendored copy (R11 attribution condition).

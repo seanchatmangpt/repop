@@ -1,0 +1,18 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "P28-SIL"
+repository = "https://example.invalid/repop"
+
+# Lane C6 (P4): release profile must live at the workspace root to take
+# effect for the wasm glue crate (cargo ignores non-root package profiles).
+[profile.release]
+lto = "fat"
+codegen-units = 1
+opt-level = "z"
+panic = "abort"
+strip = true

@@ -1,0 +1,17 @@
+# Node
+node_modules/
+dist/
+
+# Rust
+target/
+
+# Wasm artifacts: build outputs are ignored, but the worker lane ships
+# prebuilt wasm assets by allowlist (e.g. AtomVM-web-agnostic.wasm fetched
+# into packages/worker/public/ at boot-asset staging, not committed build
+# output). Build-emitted .wasm under packages/worker/public is ignored;
+# allowlisted prebuilt assets must be force-added explicitly.
+packages/worker/public/*.wasm
+
+# Lane build roots / scratch
+_build-*/
+*.tmp

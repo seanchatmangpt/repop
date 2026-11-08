@@ -1,0 +1,12 @@
+[package]
+name = "repop-abi"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Pinned 64-byte frame layouts crossing the repop kernel/worker/client boundary"
+
+# Zero dependencies. Zero std. Zero JSON. Fixed-width little-endian only.
+[dependencies]
+
+[lib]
+path = "src/lib.rs"

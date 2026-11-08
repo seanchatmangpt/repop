@@ -1,0 +1,17 @@
+[package]
+name = "repop-kernel-wasm"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "wasm32-unknown-unknown glue: bump arena, panic/eh glue, raw C-ABI export table"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# Re-attached 2026-11-08 (lane C6w): repop-abi landed (P1, 17/17 tests).
+repop-abi = { path = "../repop-abi" }
+# P2/P3: repop-kernel path dep lands here once solver/CAS APIs are wired.
+# Until then repop_solve/repop_cas_*/repop_receipt_emit are internal
+# placeholders returning typed Err status codes (see src/abi.rs).
