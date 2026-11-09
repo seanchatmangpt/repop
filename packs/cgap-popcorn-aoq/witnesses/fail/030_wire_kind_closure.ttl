@@ -1,0 +1,8 @@
+# FAIL witness 030_wire_kind_closure: MUTATION = w:f0 carries the undeclared
+# kind cp:wkF32LE (outside the closed 7-value enum). Gate 030 must return
+# >=1 row.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:fail/> .
+
+w:f0 a cp:FrameField ;
+    cp:wireKind cp:wkF32LE .

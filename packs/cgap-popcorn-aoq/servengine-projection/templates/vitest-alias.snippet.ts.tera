@@ -1,0 +1,8 @@
+// GGEN-GENERATED — servengine-patch projection (P19). Merge these entries into
+// vitest.config.ts resolve.alias, ABOVE the bare "@" catch-all entry.
+// Source of truth: packs/cgap-popcorn-aoq/servengine-projection/ontology/servengine-patch.ttl
+export const vitestAliasEntries = [
+{%- for r in sparql_results %}
+  { find: "{{ r.vitestFind }}", replacement: resolve(__dirname, "{{ r.vitestReplacement }}") },
+{%- endfor %}
+];

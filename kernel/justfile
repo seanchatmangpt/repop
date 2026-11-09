@@ -1,0 +1,36 @@
+# repop kernel wrapper recipes — thin delegation only, no duplicated logic.
+# Real logic lives in per-crate build scripts / tests owned by kernel lanes.
+
+# Default: list recipes so bare `just` is informative.
+default:
+    @just --list
+
+# Build kernel crates for wasm32-unknown-unknown (R10 step 3).
+build-wasm:
+    #!/usr/bin/env sh
+    set -e
+    for crate in crates/*; do
+        [ -d "$crate" ] || exit 0
+        echo "== build-wasm: $crate"
+        (cd "$crate" && cargo build --release --target wasm32-unknown-unknown)
+    done
+
+# Run kernel court suites (P5 owns the court crates under crates/*).
+courts:
+    #!/usr/bin/env sh
+    set -e
+    cargo test --workspace --release
+
+# Emit wasm footprint report (P4 owns the footprint gate logic per crate).
+footprint:
+    #!/usr/bin/env sh
+    set -e
+    for crate in crates/*; do
+        [ -d "$crate" ] || exit 0
+        echo "== footprint: $crate"
+        if [ -x "$crate/scripts/footprint.sh" ]; then
+            "$crate/scripts/footprint.sh"
+        else
+            echo "[SKIP] no scripts/footprint.sh in $crate"
+        fi
+    done

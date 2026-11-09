@@ -1,0 +1,8 @@
+# PASS witness 060_hook_enum_closure: exactly the three declared HookName
+# individuals, each with its wire value. Gate 060 must return 0 rows.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:pass/> .
+
+cp:hnOnFrameDecode a cp:HookName ; cp:value 1 .
+cp:hnOnReceiptSeal a cp:HookName ; cp:value 2 .
+cp:hnOnBreach a cp:HookName ; cp:value 3 .

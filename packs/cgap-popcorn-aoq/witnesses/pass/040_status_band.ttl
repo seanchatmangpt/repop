@@ -1,0 +1,6 @@
+# PASS witness 040_status_band: status code inside the frozen band
+# 0x5250A001..A009 (1381015553..1381015561). Gate 040 must return 0 rows.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:pass/> .
+
+w:scOk a cp:StatusCode ; cp:value 1381015553 .

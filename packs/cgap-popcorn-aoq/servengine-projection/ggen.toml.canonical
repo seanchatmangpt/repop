@@ -1,0 +1,76 @@
+[project]
+name = "servengine-patch"
+version = "1.0.0"
+authors = ["repop wave v26.11.8 / lane G4"]
+license = "Apache-2.0"
+
+[ontology]
+source = "packs/cgap-popcorn-aoq/servengine-projection/ontology/servengine-patch.ttl"
+standard_only = false
+
+[generation]
+output_dir = "dist/servengine-patch"
+
+[[generation.rules]]
+name = "tsconfig-paths"
+query = { file = "packs/cgap-popcorn-aoq/servengine-projection/queries/aliases.rq" }
+template = { file = "packs/cgap-popcorn-aoq/servengine-projection/templates/tsconfig-paths.snippet.json.tera" }
+output_file = "tsconfig-paths.snippet.json"
+mode = "Overwrite"
+
+[[generation.rules]]
+name = "vite-alias"
+query = { file = "packs/cgap-popcorn-aoq/servengine-projection/queries/aliases.rq" }
+template = { file = "packs/cgap-popcorn-aoq/servengine-projection/templates/vite-alias.snippet.ts.tera" }
+output_file = "vite-alias.snippet.ts"
+mode = "Overwrite"
+
+[[generation.rules]]
+name = "vitest-alias"
+query = { file = "packs/cgap-popcorn-aoq/servengine-projection/queries/aliases.rq" }
+template = { file = "packs/cgap-popcorn-aoq/servengine-projection/templates/vitest-alias.snippet.ts.tera" }
+output_file = "vitest-alias.snippet.ts"
+mode = "Overwrite"
+
+[[generation.rules]]
+name = "vitest-browser-alias"
+query = { file = "packs/cgap-popcorn-aoq/servengine-projection/queries/aliases.rq" }
+template = { file = "packs/cgap-popcorn-aoq/servengine-projection/templates/vitest-browser-alias.snippet.ts.tera" }
+output_file = "vitest-browser-alias.snippet.ts"
+mode = "Overwrite"
+
+[[generation.rules]]
+name = "server-headers"
+query = { file = "packs/cgap-popcorn-aoq/servengine-projection/queries/headers.rq" }
+template = { file = "packs/cgap-popcorn-aoq/servengine-projection/templates/server-headers.snippet.ts.tera" }
+output_file = "server-headers.snippet.ts"
+mode = "Overwrite"
+
+[[generation.rules]]
+name = "amplify-custom-headers"
+query = { file = "packs/cgap-popcorn-aoq/servengine-projection/queries/headers.rq" }
+template = { file = "packs/cgap-popcorn-aoq/servengine-projection/templates/amplify-custom-headers.snippet.yml.tera" }
+output_file = "amplify-custom-headers.snippet.yml"
+mode = "Overwrite"
+
+[[generation.rules]]
+name = "app-provider-slot"
+query = { file = "packs/cgap-popcorn-aoq/servengine-projection/queries/slot.rq" }
+template = { file = "packs/cgap-popcorn-aoq/servengine-projection/templates/app-provider-slot.snippet.tsx.tera" }
+output_file = "AppProvider-slot.snippet.tsx"
+mode = "Overwrite"
+
+[[generation.rules]]
+name = "demo-route"
+query = { file = "packs/cgap-popcorn-aoq/servengine-projection/queries/demo.rq" }
+template = { file = "packs/cgap-popcorn-aoq/servengine-projection/templates/demo-route.snippet.tsx.tera" }
+output_file = "demo-route/repop.route.snippet.tsx"
+mode = "Overwrite"
+
+[[generation.rules]]
+name = "demo-route-test"
+query = { file = "packs/cgap-popcorn-aoq/servengine-projection/queries/demo.rq" }
+template = { file = "packs/cgap-popcorn-aoq/servengine-projection/templates/demo-route-test.snippet.tsx.tera" }
+output_file = "demo-route/repop.browser.test.snippet.tsx"
+mode = "Overwrite"
+

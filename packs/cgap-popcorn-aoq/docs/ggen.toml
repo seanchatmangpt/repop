@@ -1,0 +1,43 @@
+# ggen.toml — docs projection manifest (lane G5).
+# Invocation (two steps, both deterministic):
+#   cd packs/cgap-popcorn-aoq/docs
+#   cat ../ontology.ttl targets.ttl > build/graph.ttl && ggen sync run
+# (source = single path only on 26.11.5 — sequence rejected, FM-CONFIG-003 —
+# so the ontology + targets graph is concat-staged into build/graph.ttl first.)
+# Declarative-rules schema (schema 1). Regenerates the three docs/ surfaces
+# deterministically from ../ontology.ttl + ./targets.ttl. No wall-clock
+# stamping (pack determinism law).
+[project]
+name = "cgap-popcorn-aoq-docs"
+version = "0.1.0"
+description = "deterministic docs projection for the cgap-popcorn-aoq pack"
+authors = ["lane G5"]
+license = "MIT"
+
+[ontology]
+source = "build/graph.ttl"
+standard_only = false
+
+[generation]
+output_dir = "."
+
+[[generation.rules]]
+name = "wire_law"
+query = { file = "queries/wire_law.rq" }
+template = { file = "templates/wire_law.md.tera" }
+output_file = "wire_law.md"
+mode = "Overwrite"
+
+[[generation.rules]]
+name = "hook_registry"
+query = { file = "queries/hook_registry.rq" }
+template = { file = "templates/hook_registry.md.tera" }
+output_file = "hook_registry.md"
+mode = "Overwrite"
+
+[[generation.rules]]
+name = "targets"
+query = { file = "queries/targets.rq" }
+template = { file = "templates/targets.md.tera" }
+output_file = "targets.md"
+mode = "Overwrite"

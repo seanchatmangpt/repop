@@ -1,0 +1,10 @@
+PREFIX sep: <https://repop.dev/ontology/servengine-patch#>
+
+# One row per COI header, every column bound.
+SELECT ?headerKey ?headerValue
+WHERE {
+  ?h a sep:HeaderEntry ;
+     sep:headerKey ?headerKey ;
+     sep:headerValue ?headerValue .
+}
+ORDER BY ?headerKey

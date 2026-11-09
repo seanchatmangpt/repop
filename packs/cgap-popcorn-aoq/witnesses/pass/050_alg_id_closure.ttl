@@ -1,0 +1,7 @@
+# PASS witness 050_alg_id_closure: ReceiptFrame alg_id row inside the
+# {0x0000,0x0001} seam. Gate 050 must return 0 rows on this graph.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:pass/> .
+
+w:alg a cp:FrameField ;
+    cp:rustName "alg_id" ; cp:value 0 .

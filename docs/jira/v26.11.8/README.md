@@ -18,13 +18,13 @@ UNVERIFIED-UNLANDED when no receipt exists on disk.
 |---|---|---|---|
 | 01-abi | 01-abi — Wave-2 Plan, Lane P1: @repop/abi Pi | g1-abi-reconcile.md | PARTIAL |
 | 02-solver | P2 Wave-2 Plan — Kernel Hyperplane Solver | - | UNVERIFIED-UNLANDED |
-| 03-cas-receipt | 03 - CAS Version Registry + Receipt Emission | - | UNVERIFIED-UNLANDED |
-| 04-wasm-build | P4 — Kernel wasm32-unknown-unknown Build (Wa | - | UNVERIFIED-UNLANDED |
+| 03-cas-receipt | 03 - CAS Version Registry + Receipt | c4-cas-receipt-kernel.md | PARTIAL_ALIVE |
+| 04-wasm-build | P4 — Kernel wasm32-unknown-unknown Build (Wa | c6-wasm-glue.md | LANDED-PASS |
 | 05-kernel-courts | P5 Kernel Courts — Wave-2 Plan | - | UNVERIFIED-UNLANDED |
-| 06-sab-ring | P6 Wave-2 Plan: SAB Ring (WIR0 Slot Port, At | - | UNVERIFIED-UNLANDED |
+| 06-sab-ring | P6 Wave-2 Plan: SAB Ring (WIR0 Slot Port, At | c6b-sab-ring.md | PARTIAL_ALIVE |
 | 07-worker-boot | J07 — Wave-2 Plan: P7 Worker Boot Chain (P7 | 07-worker-boot.md | PARTIAL_ALIVE |
 | 08-atomvm | P8 — AtomVM Integration Plan (Wave 2, lane J | - | UNVERIFIED-UNLANDED |
-| 09-message-protocol | P9: Worker Message Protocol (Wave-2 Plan) | - | UNVERIFIED-UNLANDED |
+| 09-message-protocol | P9: Worker Message Protocol (Wave-2 | c9-protocol-router.md | LANDED-PASS |
 | 10-client-store | P10 — @repop/client Headless Store (Wave-2 | c10-client-store.md | LANDED-PASS |
 | 11-provider | P11 — RepopProvider + Worker Lifecycle (Wav | c11-repop-package.md | PARTIAL_ALIVE |
 | 12-hooks | P12 — useCgapEntity + useHyperplane Hooks (W | - | UNVERIFIED-UNLANDED |
@@ -34,7 +34,7 @@ UNVERIFIED-UNLANDED when no receipt exists on disk.
 | 16-pack-ontology | P16 Wave-2 Plan: ggen Pack Semantic Core | c16-pack-ontology.md | LANDED-PASS |
 | 17-pack-gates | P17 — Pack Gates + Witnesses (cgap-popcorn-a | - | UNVERIFIED-UNLANDED |
 | 18-pack-templates | P18 Pack Templates Plan (Wave 2) | - | UNVERIFIED-UNLANDED |
-| 19-servengine-integration | P19 Wave-2: servengin | p19a-integration-preflight.md | LANDED-ALIVE |
+| 19-servengine-integration | servengine integratio | p19a-integration-preflight.md | LANDED-ALIVE |
 | 20-aoq-uplink-demo | P20 — AoQ Uplink Seam, Local OCEL Ledger, De | - | UNVERIFIED-UNLANDED |
 
 Plan numbering gaps (NN with no plan file) are absent-from-disk, not skipped

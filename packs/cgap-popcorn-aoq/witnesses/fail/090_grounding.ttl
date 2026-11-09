@@ -1,0 +1,14 @@
+# FAIL witness 090_grounding: MUTATION = cFrameSize 63 (frame-size law
+# broken). Gate 090 must return >=1 row.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:fail/> .
+
+cp:cIntentMagic     a cp:StatusConstant ; cp:value 18758 .
+cp:cHyperplaneMagic a cp:StatusConstant ; cp:value 18512 .
+cp:cReceiptMagic    a cp:StatusConstant ; cp:value 21062 .
+cp:cVersion         a cp:StatusConstant ; cp:value 1 .
+cp:algBlake3        a cp:StatusConstant ; cp:value 0 .
+cp:algMlDsa         a cp:StatusConstant ; cp:value 1 .
+cp:cFnvOffsetBasis  a cp:StatusConstant ; cp:value 2166136261 .
+cp:cFnvPrime        a cp:StatusConstant ; cp:value 16777619 .
+cp:cFrameSize       a cp:StatusConstant ; cp:value 63 .

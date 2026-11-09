@@ -19,11 +19,16 @@
 //! `RUSTFLAGS='--cfg repop_drop_version_export'` compiles `repop_version`
 //! out of the export table; the exports leg must then FAIL.
 
-#![no_std]
-#![no_main]
+// no_std is wasm32-only glue: host builds (test/clippy) compile against std,
+// which owns panic/eh/alloc on the host — the wasm32 panics/eh/alloc glue
+// below is cfg-gated out there.
+#![cfg_attr(target_arch = "wasm32", no_std)]
+// wasm32-only: on host, `no_main` drops the lib-test harness's `main`.
+#![cfg_attr(target_arch = "wasm32", no_main)]
 // Mutation-leg cfg is expected to be unused in normal builds.
 #![allow(unexpected_cfgs)]
 
+#[cfg(target_arch = "wasm32")]
 use core::panic::PanicInfo;
 
 pub mod abi;
@@ -46,8 +51,8 @@ const PKG_VERSION_PATCH: u32 = 0;
 /// Panic law: on wasm32-unknown-unknown there is no unwinding host —
 /// panic = `wasm32::unreachable` (trap), surfaced by the host as a
 /// WebAssembly.RuntimeError. Fail-closed, never silent.
+#[cfg(target_arch = "wasm32")]
 #[panic_handler]
-#[cfg_attr(test, allow(dead_code))]
 fn panic(_info: &PanicInfo) -> ! {
     core::arch::wasm32::unreachable()
 }
@@ -56,6 +61,8 @@ fn panic(_info: &PanicInfo) -> ! {
 /// require it for this build + eh-probe runs; the stable `#[no_mangle]`
 /// symbol keeps the module loadable under runtimes that probe for it
 /// (precedent: cgap wasm-footprint). Kept minimal and non-trapping.
+/// Host builds link std's personality; this stub is wasm-only glue.
+#[cfg(target_arch = "wasm32")]
 #[no_mangle]
 pub extern "C" fn __rust_eh_personality() {}
 
@@ -117,6 +124,8 @@ pub extern "C" fn repop_scratch_remaining() -> u32 {
 /// Read a 64-byte frame at a caller-supplied linear-memory offset, bounded by
 /// the current wasm memory size. Fail-closed: a truncated or out-of-range
 /// offset is a typed refusal (None), never a trap.
+/// wasm32 twin: linear-memory size in bytes, straight from the intrinsic.
+#[cfg(target_arch = "wasm32")]
 fn read_frame(offset: Ptr) -> Option<[u8; repop_abi::FRAME_SIZE]> {
     let mem_bytes = (core::arch::wasm32::memory_size::<0>() as u64) * 65536;
     let end = u64::from(offset) + repop_abi::FRAME_SIZE as u64;
@@ -131,6 +140,16 @@ fn read_frame(offset: Ptr) -> Option<[u8; repop_abi::FRAME_SIZE]> {
             .try_into()
             .expect("slice len equals FRAME_SIZE"),
     )
+}
+
+/// Host twin (test-compile only; there is no linear memory on the host):
+/// every frame read is a typed refusal (None), never a fabricated pointer.
+/// The frame-validated exports below surface this as their BAD/INVALID
+/// status, never a trap. No host tests exist in this crate yet; this keeps
+/// `cargo test --workspace` linkable without touching the wasm32 build.
+#[cfg(not(target_arch = "wasm32"))]
+fn read_frame(_offset: Ptr) -> Option<[u8; repop_abi::FRAME_SIZE]> {
+    None
 }
 
 /// Validate the intent frame at `intent` (64B repop-abi `IntentFrame`) using

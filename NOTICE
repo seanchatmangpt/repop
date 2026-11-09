@@ -5,7 +5,7 @@ workspace (~/cgap), included per Wave-1 resolution R11 (vendored-copy
 attribution law). The vendored copy lives under kernel/crates/ and is
 identified by provenance URN:
 
-    urn:repop:vendor:cgap:<upstream-sha>
+    urn:repop:vendor:cgap:ede726ff31e95a7e27ea931390f3ae847ef4d262
 
 The <upstream-sha> placeholder is replaced by the cgap commit SHA at the time
 the vendored copy lands (coordinator action at integration; the placeholder

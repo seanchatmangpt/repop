@@ -1,0 +1,9 @@
+// GGEN-GENERATED — servengine-patch projection (P19). Merge into vite.config.ts
+// as `server: { port: 3000, proxy, headers: coiServerHeaders }`.
+// COEP is credentialless (not require-corp) so Google Fonts keeps loading (R5).
+// Source of truth: packs/cgap-popcorn-aoq/servengine-projection/ontology/servengine-patch.ttl
+export const coiServerHeaders = {
+{%- for r in sparql_results %}
+  "{{ r.headerKey }}": "{{ r.headerValue }}",
+{%- endfor %}
+};

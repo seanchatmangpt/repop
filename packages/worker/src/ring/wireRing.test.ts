@@ -1,3 +1,10 @@
+// @vitest-environment node
+// Wire codec tests compare WIR0 slot bytes across typed arrays. Under the
+// root unit project's jsdom realm, TextEncoder stays Node-realm while
+// Uint8Array is jsdom-realm, so byte-identical arrays fail chai deep-equal
+// with "no visual difference" (cross-realm prototypes). Byte transport is
+// a node-level concern; run in node where producer and consumer share a
+// realm. No DOM surface is exercised here.
 import { describe, expect, it } from "vitest";
 import { MAX_PAYLOAD, SLOT_SIZE, WIRE_MAGIC } from "./constants.ts";
 import { crc32 } from "./crc32.ts";

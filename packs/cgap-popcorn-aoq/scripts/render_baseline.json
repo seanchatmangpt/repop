@@ -1,0 +1,12 @@
+{
+ "digests": {
+  "abi_kernel.rs.tmpl": "7ab3615f0c0f349dbba88cee29dc3ed55ee04ab938a7c0d758b39c74892cd3d9",
+  "abi_mirror.ts.tmpl": "6d218e208a602d9fcd65bd22d6bb8b4c15b204ec60ae92929fca365bec97f18e",
+  "repop_boundary.tsx.tmpl": "0866ccb8254b9233658166f38acd02a54fbe7dfbbb8c343b63633c11bccb3c28",
+  "repop_provider.tsx.tmpl": "8fda82f96d718c681513d32af132b19b6824015da8e1218ecf0b355c3e451740",
+  "use_cgapp_entity.ts.tmpl": "b50cb707880490af132b2decb1d34cce5ee6eb7881326832438cbf5d40968be0",
+  "use_hyperplane.ts.tmpl": "f95457664263d3f246ffb4f639b67eef6bc7d70de571822e92bc67ed132020c7",
+  "worker_boot_vocab.ts.tmpl": "9b619da8535b103b01aec7e50d47dc0c114464bd1119436030956c8af4340fab"
+ },
+ "law": "sha256 of the deterministic render per template; regenerate ONLY after a reviewed template/ontology change via --update-baseline"
+}

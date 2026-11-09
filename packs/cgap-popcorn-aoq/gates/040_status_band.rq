@@ -1,0 +1,23 @@
+# MESSAGE: status code outside the frozen band 0x5250A001..0x5250A009, or
+# missing its wire value.
+# The status band is closed: a cp:StatusCode individual whose cp:value is not
+# one of the nine band words 1381015553..1381015561 (0x5250A001..A009) is a
+# refusal. Band law expressed numerically over xsd:integer wire values (the
+# ontology mints cp:value as integers, not hex strings).
+# Anti-vacuity: witnesses/fail/040_status_band.ttl adds an out-of-band
+# 0x5250A00A; this gate must return >=1 row on it (court flip).
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+SELECT ?code ?problem WHERE {
+  ?code a cp:StatusCode .
+  {
+    ?code cp:value ?v .
+    FILTER(?v < 1381015553 || ?v > 1381015561)
+    BIND("value-outside-band-0x5250A001..A009" AS ?problem)
+  }
+  UNION
+  {
+    FILTER NOT EXISTS { ?code cp:value ?any . }
+    BIND("missing-value" AS ?problem)
+  }
+}
+ORDER BY ?code ?problem

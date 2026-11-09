@@ -1,0 +1,10 @@
+# GGEN-GENERATED — servengine-patch projection (P19). Merge into amplify.yml
+# `customHeaders` (sibling of the existing "**/*.mjs" pattern entry).
+# COEP credentialless: Google Fonts must keep loading (wave-1 R5).
+# Source of truth: packs/cgap-popcorn-aoq/servengine-projection/ontology/servengine-patch.ttl
+    - pattern: "**/*"
+      headers:
+{%- for r in sparql_results %}
+        - key: {{ r.headerKey }}
+          value: {{ r.headerValue }}
+{%- endfor %}

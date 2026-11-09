@@ -1,0 +1,24 @@
+# MESSAGE: pinned wire-law constant drifted from its grounded value.
+# The nine grounding constants are the FNV/64B/magic law adopted row-for-row
+# from kernel/crates/repop-abi/src/layout_spec.rs: frame size 64, layout
+# version 1, three frame magics (0x4946 0x4850 0x5246), the algId seam pair
+# (BLAKE3=0, ML-DSA=1), and FNV-1a32 basis/prime. Any drift is a refusal.
+# Anti-vacuity: witnesses/fail/090_grounding.ttl sets cFrameSize to 63; this
+# gate must return >=1 row on it (court flip).
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+SELECT ?constant ?actual ?expected WHERE {
+  VALUES (?constant ?expected) {
+    ( cp:cIntentMagic     18758 )
+    ( cp:cHyperplaneMagic 18512 )
+    ( cp:cReceiptMagic    21062 )
+    ( cp:cVersion         1 )
+    ( cp:algBlake3        0 )
+    ( cp:algMlDsa         1 )
+    ( cp:cFnvOffsetBasis  2166136261 )
+    ( cp:cFnvPrime        16777619 )
+    ( cp:cFrameSize       64 )
+  }
+  ?constant cp:value ?actual .
+  FILTER(?actual != ?expected)
+}
+ORDER BY ?constant

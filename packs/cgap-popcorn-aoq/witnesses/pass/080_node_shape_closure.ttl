@@ -1,0 +1,8 @@
+# PASS witness 080_node_shape_closure: one shape per class, two classes.
+# Gate 080 must return 0 rows on this graph.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:pass/> .
+
+w:s1 a sh:NodeShape ; sh:targetClass cp:WorkOrder .
+w:s2 a sh:NodeShape ; sh:targetClass cp:NteRecord .

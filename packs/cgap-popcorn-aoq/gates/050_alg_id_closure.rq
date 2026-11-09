@@ -1,0 +1,22 @@
+# MESSAGE: ReceiptFrame alg_id field value outside the closed {0x0000,0x0001}
+# seam, or missing its value.
+# cp:snAlgId: the client emits keyed-BLAKE3 (alg_id 0x0000); ML-DSA-65 seal
+# (0x0001) applies at the server trust boundary. Any other alg_id word, or an
+# alg_id row without a value, is an unsupported-algorithm refusal at the wire.
+# Anti-vacuity: witnesses/fail/050_alg_id_closure.ttl sets alg_id to 2
+# (0x0002); this gate must return >=1 row on it (court flip).
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+SELECT ?field ?problem WHERE {
+  ?field a cp:FrameField ; cp:rustName "alg_id" .
+  {
+    ?field cp:value ?v .
+    FILTER(?v != 0 && ?v != 1)
+    BIND("alg_id-outside-{0x0000,0x0001}" AS ?problem)
+  }
+  UNION
+  {
+    FILTER NOT EXISTS { ?field cp:value ?any . }
+    BIND("missing-value" AS ?problem)
+  }
+}
+ORDER BY ?field ?problem

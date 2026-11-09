@@ -1,0 +1,15 @@
+# PASS witness 090_grounding: the nine pinned wire-law constants at their
+# grounded values (64B frame, layout version 1, magics 0x4946/0x4850/0x5246,
+# algId seam pair, FNV-1a32 basis/prime). Gate 090 must return 0 rows.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:pass/> .
+
+cp:cIntentMagic     a cp:StatusConstant ; cp:value 18758 .
+cp:cHyperplaneMagic a cp:StatusConstant ; cp:value 18512 .
+cp:cReceiptMagic    a cp:StatusConstant ; cp:value 21062 .
+cp:cVersion         a cp:StatusConstant ; cp:value 1 .
+cp:algBlake3        a cp:StatusConstant ; cp:value 0 .
+cp:algMlDsa         a cp:StatusConstant ; cp:value 1 .
+cp:cFnvOffsetBasis  a cp:StatusConstant ; cp:value 2166136261 .
+cp:cFnvPrime        a cp:StatusConstant ; cp:value 16777619 .
+cp:cFrameSize       a cp:StatusConstant ; cp:value 64 .

@@ -1,0 +1,10 @@
+# FAIL witness 010_frame_field_closure: MUTATION = w:f2 has no tsName
+# (TX-2 name closure broken). Gate 010 must return >=1 row.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:fail/> .
+
+w:f1 a cp:FrameField ;
+    cp:rustName "magic" ; cp:tsName "magic" .
+
+w:f2 a cp:FrameField ;
+    cp:rustName "digest" .

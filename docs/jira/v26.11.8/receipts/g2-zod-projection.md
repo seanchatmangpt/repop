@@ -47,3 +47,15 @@ C16 DID land the NodeShapes: `/Users/sac/repop/packs/cgap-popcorn-aoq/ontology.t
 cd /Users/sac/repop/scratch/g2-zod && ggen sync run --skip-ea-admission
 cmp src/shacl_zod_schemas.js <(echo ...)  # expect sha256 897da55e…0879
 ```
+
+## LANDING (G2b, 2026-11-08 15:53 PST)
+
+Standing: PARTIAL_ALIVE — landed + deterministic; compile-vs-zod UNVERIFIED (zod not a dependency of packages/repop).
+
+- Blocker cleared: `packages/repop/src` exists (C11 landed); `src/generated/` absent → created by G2b (G2b-owned dir).
+- Mtime gate: newest src/ file mtime 15:39:53 vs landing 15:53 → 12m38s > 10min, gate OPEN (waited via scratch-first ordering).
+- Re-render from ADOPTED ontology (packs/cgap-popcorn-aoq/ontology.ttl, sha256 9fe01e153dd39bbc68e201239e338bd43aee54f8ea3188e25fcbf6a151ca4a12): scratch consumer copy rebuilt (sp:isPrimaryOutput true on all 10 property nodes — G2's pre-adoption copy had 13; adopted version has 10), rdflib parse 647 triples exit 0.
+- Determinism ×2: `ggen sync run --skip-ea-admission` exit 0 ×2; graph_hash_hex f81019602ecd4117baec0642214039056fcda4d779217ad040e13c813f1a58ff identical both runs; rendered js sha256 897da55e7234a364f3a916ab9bac4b469798c17ab997abbc4b6dbc8841cd0879 — byte-identical to G2's original render (NodeShape surface unchanged by the 3-frame adoption).
+- Landed: /Users/sac/repop/packages/repop/src/generated/zodSchemas.ts (sha256 6bb66fa01a210e41c2981bb30136173facd873046fbe2ed68ee02ce881c5a163) = provenance header + rendered bytes verbatim.
+- tsc --noEmit -p tsconfig.scoped.json: exit 0 (landed surface green; scoped include list does not cover src/generated/).
+- tsc --noEmit on src/generated/zodSchemas.ts directly: exit 2 — TS2307 Cannot find module 'zod'. zod is absent from packages/repop/package.json (C11-owned; not edited per lane law). Registered divergence: the compile claim is UNVERIFIED until zod is added as a dependency.

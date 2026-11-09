@@ -1,0 +1,11 @@
+PREFIX sep: <https://repop.dev/ontology/servengine-patch#>
+
+# Exactly one slot row.
+SELECT ?importPath ?providerName ?slotFile
+WHERE {
+  ?s a sep:ProviderSlot ;
+     sep:importPath ?importPath ;
+     sep:providerName ?providerName ;
+     sep:slotFile ?slotFile .
+}
+ORDER BY ?providerName

@@ -1,0 +1,25 @@
+# MESSAGE: 64B frame field chain broken (offset + sizeBytes != nextOffset,
+# frame without an offset-0 start row, or nextOffset past the 64B boundary).
+# Each pinned frame's fields form a contiguous chain 0 -> 64: the frame's
+# first field must sit at offset 0, every row must satisfy
+# offset + sizeBytes = nextOffset, and no nextOffset may exceed 64.
+# Anti-vacuity: witnesses/fail/020_offset_contiguity.ttl moves the second
+# field's nextOffset to 63; this gate must return >=1 row on it (court flip).
+# Note: branches are fully self-contained (no shared lead pattern before the
+# UNION) — rdflib mis-evaluates a shared lead + nested group shape; the
+# self-contained branch shape is the court-proven form (see gate 010/040).
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+SELECT ?field ?problem WHERE {
+  { ?field a cp:FrameField ; cp:offset ?off ; cp:sizeBytes ?sz ; cp:nextOffset ?n .
+    FILTER(?off + ?sz != ?n)
+    BIND("offset+sizeBytes != nextOffset" AS ?problem) }
+  UNION
+  { ?field a cp:FrameField ; cp:fieldOf ?frame .
+    FILTER NOT EXISTS { ?f2 cp:fieldOf ?frame ; cp:offset 0 . }
+    BIND("frame-has-no-offset-0-start" AS ?problem) }
+  UNION
+  { ?field a cp:FrameField ; cp:nextOffset ?n2 .
+    FILTER(?n2 > 64)
+    BIND("nextOffset-past-64B-boundary" AS ?problem) }
+}
+ORDER BY ?field ?problem

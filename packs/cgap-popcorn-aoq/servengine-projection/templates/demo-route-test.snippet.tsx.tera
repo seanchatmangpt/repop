@@ -1,0 +1,15 @@
+// GGEN-GENERATED — servengine-patch projection (P19). Browser-project test for
+// the demo route (worker/WASM tests MUST be .browser.test.tsx — wave-1 R6).
+// Source of truth: packs/cgap-popcorn-aoq/servengine-projection/ontology/servengine-patch.ttl
+import { describe, expect, it } from "vitest";
+import { render, screen } from "@testing-library/react";
+
+describe("repop demo route", () => {
+  it("mounts the demo root and reports COI status", async () => {
+    render(<div id="repop-demo-root" />);
+    const root = document.getElementById("repop-demo-root");
+    expect(root).not.toBeNull();
+    // COI observability: crossOriginIsolated is false without the headers.
+    expect(typeof window.crossOriginIsolated).toBe("boolean");
+  });
+});

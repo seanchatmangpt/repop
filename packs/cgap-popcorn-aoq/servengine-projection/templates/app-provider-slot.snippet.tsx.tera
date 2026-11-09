@@ -1,0 +1,19 @@
+// GGEN-GENERATED — servengine-patch projection (P19). Slot shape for the
+// AppProvider composition root ({{ row.slotFile }}). The executor lane inserts
+// <RepopProvider> around {children} inside AppProvider's mapsBody tree:
+//   <MantineProviderWrapper>
+//     <QueryClientProviderWrapper>
+//       <{{ row.providerName }}>{children}</{{ row.providerName }}>
+//     </QueryClientProviderWrapper>
+//   </MantineProviderWrapper>
+// Source of truth: packs/cgap-popcorn-aoq/servengine-projection/ontology/servengine-patch.ttl
+import type { ReactNode } from "react";
+import { RepopProvider } from "{{ row.importPath }}";
+
+export function RepopProviderSlot({ children }: { children: ReactNode }) {
+  return (
+    <{{ row.providerName }}>
+      {children}
+    </{{ row.providerName }}>
+  );
+}

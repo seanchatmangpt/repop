@@ -1,0 +1,9 @@
+# FAIL witness 080_node_shape_closure: MUTATION = second NodeShape on
+# cp:WorkOrder (split entity contract). Gate 080 must return >=1 row.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:fail/> .
+
+w:s1 a sh:NodeShape ; sh:targetClass cp:WorkOrder .
+w:s2 a sh:NodeShape ; sh:targetClass cp:NteRecord .
+w:s3 a sh:NodeShape ; sh:targetClass cp:WorkOrder .

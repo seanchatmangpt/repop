@@ -1,0 +1,18 @@
+# MESSAGE: FrameField missing a language name property (rustName / tsName).
+# Every cp:FrameField must carry both code-gen target names (TX-2 closure):
+# each is one code-gen target's identifier. A row is a field that would render
+# into one language but not the other.
+# Anti-vacuity: witnesses/fail/010_frame_field_closure.ttl drops tsName from
+# the first field; this gate must return >=1 row on it (court flip).
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+SELECT ?field ?missing WHERE {
+  ?field a cp:FrameField .
+  { ?field cp:rustName ?r .
+    FILTER NOT EXISTS { ?field cp:tsName ?t . }
+    BIND("tsName" AS ?missing) }
+  UNION
+  { ?field cp:tsName ?t2 .
+    FILTER NOT EXISTS { ?field cp:rustName ?r2 . }
+    BIND("rustName" AS ?missing) }
+}
+ORDER BY ?field ?missing

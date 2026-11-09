@@ -1,0 +1,76 @@
+{
+  "standing": "ALIVE",
+  "gate_exit": 0,
+  "courts_total": 6,
+  "killed": 6,
+  "subject_missing": 0,
+  "rows": [
+    {
+      "court": "differential-oracle",
+      "subject": "crates/repop-kernel/src/solver.rs",
+      "test": "solver_differential_courts",
+      "baseline_exit": 0,
+      "mutation_exit": 101,
+      "killed": true,
+      "standing": "ALIVE",
+      "exit": 0,
+      "tail": "epop-kernel` (test \"solver_differential_courts\") generated 3 warnings\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s\n     Running tests/solver_differential_courts.rs (/tmp/boundary_gate/targets/solver_differential_courts-1794182616/debug/deps/solver_differential_courts-65c25cd36ac532da)\nerror: test failed, to rerun pass `-p repop-kernel --test solver_differential_courts`\n"
+    },
+    {
+      "court": "cas-registry",
+      "subject": "crates/repop-kernel/src/state.rs",
+      "test": "cas_differential_courts",
+      "baseline_exit": 0,
+      "mutation_exit": 101,
+      "killed": true,
+      "standing": "ALIVE",
+      "exit": 0,
+      "tail": "^^\n\nwarning: `repop-kernel` (test \"cas_differential_courts\") generated 6 warnings\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.43s\n     Running tests/cas_differential_courts.rs (/tmp/boundary_gate/targets/cas_differential_courts-1794182617/debug/deps/cas_differential_courts-38969a313e5b5f0b)\nerror: test failed, to rerun pass `-p repop-kernel --test cas_differential_courts`\n"
+    },
+    {
+      "court": "boundary-sweep",
+      "subject": "crates/repop-kernel/src/boundary.rs",
+      "test": "boundary_sweep_courts",
+      "baseline_exit": 0,
+      "mutation_exit": 101,
+      "killed": true,
+      "standing": "ALIVE",
+      "exit": 0,
+      "tail": "ode analysis\n\nwarning: `repop-kernel` (test \"boundary_sweep_courts\") generated 2 warnings\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.39s\n     Running tests/boundary_sweep_courts.rs (/tmp/boundary_gate/targets/boundary_sweep_courts-1794182619/debug/deps/boundary_sweep_courts-629214135d088523)\nerror: test failed, to rerun pass `-p repop-kernel --test boundary_sweep_courts`\n"
+    },
+    {
+      "court": "receipt-emit",
+      "subject": "crates/repop-kernel/src/receipt.rs",
+      "test": "receipt_differential_courts",
+      "baseline_exit": 0,
+      "mutation_exit": 101,
+      "killed": true,
+      "standing": "ALIVE",
+      "exit": 0,
+      "tail": "kernel` (test \"receipt_differential_courts\") generated 4 warnings\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.38s\n     Running tests/receipt_differential_courts.rs (/tmp/boundary_gate/targets/receipt_differential_courts-1794182620/debug/deps/receipt_differential_courts-0638d7d26dad59ef)\nerror: test failed, to rerun pass `-p repop-kernel --test receipt_differential_courts`\n"
+    },
+    {
+      "court": "admissions-root",
+      "subject": "crates/repop-kernel/src/receipt.rs",
+      "test": "receipt_differential_courts",
+      "baseline_exit": 0,
+      "mutation_exit": 101,
+      "killed": true,
+      "standing": "ALIVE",
+      "exit": 0,
+      "tail": "kernel` (test \"receipt_differential_courts\") generated 4 warnings\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.40s\n     Running tests/receipt_differential_courts.rs (/tmp/boundary_gate/targets/receipt_differential_courts-1794182621/debug/deps/receipt_differential_courts-0638d7d26dad59ef)\nerror: test failed, to rerun pass `-p repop-kernel --test receipt_differential_courts`\n"
+    },
+    {
+      "court": "refusal-typing",
+      "subject": "crates/repop-kernel/src/refuse.rs",
+      "test": "cas_differential_courts",
+      "baseline_exit": 0,
+      "mutation_exit": 101,
+      "killed": true,
+      "standing": "ALIVE",
+      "exit": 0,
+      "tail": "  |\n   ::: crates/repop-kernel/src/refuse.rs:12:1\n    |\n 12 | pub enum Refusal {\n    | ---------------- variant, associated function, or constant `RegistryExhausted` not found for this enum\n\nFor more information about this error, try `rustc --explain E0599`.\nwarning: `repop-kernel` (lib) generated 5 warnings\nerror: could not compile `repop-kernel` (lib) due to 1 previous error; 5 warnings emitted\n"
+    }
+  ],
+  "ts": "2026-11-08T16:03:43-0800"
+}

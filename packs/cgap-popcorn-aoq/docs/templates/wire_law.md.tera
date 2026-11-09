@@ -1,0 +1,64 @@
+# Wire Law — cgap-popcorn-aoq FrameHeader
+
+> GENERATED from `packs/cgap-popcorn-aoq/ontology.ttl` via `docs/queries/wire_law.rq` + `docs/templates/wire_law.md.tera` (ggen 26.11.5, declarative manifest `docs/ggen.toml`). Generated wins over hand-written; never hand-patch — edit the ontology and re-run `cd docs && ggen sync run`.
+
+The pinned 64-byte `FrameHeader` is the single wire surface across kernel/worker/client. All multi-byte scalars are little-endian.
+
+## Field table (offsets)
+
+Rows projected from `cp:FrameField` individuals (`cp:fieldOf cp:hdr`), ordered by offset.
+
+| offset | end | size | wire | C name | rust | ts | description |
+|---|---|---|---|---|---|---|---|
+{% for r in sparql_results -%}
+{% if r.kind == "field" %}
+| {{ r.offset }} | {{ r.next }} | {{ r.size }} | {{ r.wire }} | `{{ r.name }}` | `{{ r.rust }}` | `{{ r.tsname }}` | {{ r.text | replace(from="|", to="\\|") }} |
+{% endif %}
+{%- endfor %}
+
+Total = 64 bytes (contiguity chain ends at 64 per the ontology's contiguity comment).
+
+## Status constants
+
+Projected from `cp:StatusConstant` individuals.
+
+| constant | value | band/doc |
+|---|---|---|
+{% for r in sparql_results -%}
+{% if r.kind == "constant" %}
+| {{ r.name }} | {{ r.value }} | {{ r.band }} |
+{% endif %}
+{%- endfor %}
+
+## Status band (StatusCode closed enum)
+
+Band 0x5250A001..0x5250A009 is closed — out-of-band decodes fail closed. Projected from `cp:StatusCode` individuals.
+
+| code | value |
+|---|---|
+{% for r in sparql_results -%}
+{% if r.kind == "code" %}
+| {{ r.name }} | {{ r.value }} |
+{% endif %}
+{%- endfor %}
+
+## Digest law
+
+{% for r in sparql_results %}{% if r.name == "fnv1a32" %}
+- FNV-1a32 digest over bytes [0x00,0x3C), stored at offset {{ r.offset }} (4 bytes, {{ r.wire }}); offset basis {{ r.value }}, prime 16777619.
+{% endif %}{% endfor %}
+- A frame whose recomputed FNV-1a32 does not match the trailing 4 bytes fails closed (`DIGEST_MISMATCH`).
+
+## alg_id seam
+
+{% for r in sparql_results %}{% if r.name == "alg_id" %}
+- `alg_id` at offset {{ r.offset }} (u16 LE): `0x0000` keyed-BLAKE3 | `0x0001` ML-DSA-65; unknown alg_id = typed refusal.
+{% endif %}{% endfor %}
+
+## Seam notes
+
+{% for r in sparql_results -%}
+{% if r.kind == "seam" %}
+- {{ r.text }}
+{% endif %}
+{%- endfor %}

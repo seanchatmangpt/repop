@@ -1,0 +1,17 @@
+PREFIX sep: <https://repop.dev/ontology/servengine-patch#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# One row per alias entry, every column bound on every row.
+SELECT ?pkgName ?tsconfigPath ?viteFind ?viteReplacement ?vitestFind ?vitestReplacement ?browserFind ?browserReplacement
+WHERE {
+  ?e a sep:AliasEntry ;
+     sep:pkgName ?pkgName ;
+     sep:tsconfigPath ?tsconfigPath ;
+     sep:viteFind ?viteFind ;
+     sep:viteReplacement ?viteReplacement ;
+     sep:vitestFind ?vitestFind ;
+     sep:vitestReplacement ?vitestReplacement ;
+     sep:browserFind ?browserFind ;
+     sep:browserReplacement ?browserReplacement .
+}
+ORDER BY ?pkgName

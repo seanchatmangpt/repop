@@ -1,0 +1,15 @@
+# MESSAGE: more than one sh:NodeShape targeting the same class.
+# Each entity class carries exactly one SHACL contract (hand-written zod
+# banned). Two shapes on one class would split the entity contract across
+# two enforcement surfaces.
+# Anti-vacuity: witnesses/fail/080_node_shape_closure.ttl adds a second
+# shape on cp:WorkOrder; this gate must return >=1 row on it (court flip).
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+SELECT ?class ?count WHERE {
+  { SELECT ?class (COUNT(DISTINCT ?shape) AS ?count) WHERE {
+      ?shape a sh:NodeShape ; sh:targetClass ?class .
+    } GROUP BY ?class }
+  FILTER(?count > 1)
+}
+ORDER BY ?class

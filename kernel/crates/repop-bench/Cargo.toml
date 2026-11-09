@@ -1,0 +1,13 @@
+[package]
+name = "repop-bench"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+repop-kernel = { path = "../repop-kernel" }
+divan = "=0.1.18"
+
+[[bin]]
+name = "solver_min7"
+path = "bin/solver_min7.rs"

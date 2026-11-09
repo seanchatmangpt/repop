@@ -1,0 +1,25 @@
+# Hook Registry — cgap-popcorn-aoq closed sets
+
+> GENERATED from `packs/cgap-popcorn-aoq/ontology.ttl` via `docs/queries/hook_registry.rq` + `docs/templates/hook_registry.md.tera` (ggen 26.11.5, declarative manifest `docs/ggen.toml`). Generated wins over hand-written; never hand-patch — edit the ontology and re-run `cd docs && ggen sync run`.
+
+Two closed sets govern the actor surface. Membership below is exhaustive — a name not in a table is a typed refusal, not an extension point.
+
+## HookName (closed set)
+
+| value | name |
+|---|---|
+{% for r in sparql_results -%}
+{% if r.kind == "hook" %}
+| {{ r.value }} | `{{ r.name }}` |
+{% endif %}
+{%- endfor %}
+
+## ActorMessageKind (closed set)
+
+| value | name |
+|---|---|
+{% for r in sparql_results -%}
+{% if r.kind == "message" %}
+| {{ r.value }} | `{{ r.name }}` |
+{% endif %}
+{%- endfor %}

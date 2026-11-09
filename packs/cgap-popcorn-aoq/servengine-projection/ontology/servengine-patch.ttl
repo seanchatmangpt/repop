@@ -1,0 +1,93 @@
+# Servengine-frontend integration patch ontology (P19 / lane G4).
+# Ground truth: read-only observations of ~/srve/servengine-frontend, 2026-11-08.
+# Sources: docs/wave-1-resolutions.md R5 (COOP/COEP 2-spot, credentialless),
+# R6 (3-way alias law, AppProvider composition root), vitest browser project law.
+# Every row binds every column it declares — no OPTIONAL columns anywhere.
+
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix sep:   <https://repop.dev/ontology/servengine-patch#> .
+
+<https://repop.dev/ontology/servengine-patch> a owl:Ontology ;
+  rdfs:label "servengine-patch" ;
+  dcterms:title "Servengine-frontend integration patch facts (P19)" ;
+  dcterms:source <file:///Users/sac/repop/docs/wave-1-resolutions.md> .
+
+sep:AliasEntry a owl:Class ;
+  rdfs:label "One import-alias entry projected into all four alias tables." .
+
+sep:HeaderEntry a owl:Class ;
+  rdfs:label "One COI security header projected into both header spots." .
+
+sep:ProviderSlot a owl:Class ;
+  rdfs:label "The AppProvider composition-root slot for RepopProvider." .
+
+sep:DemoRoute a owl:Class ;
+  rdfs:label "The TanStack demo route boilerplate facts." .
+
+sep:pkgName        a rdf:Property .
+sep:tsconfigPath   a rdf:Property .
+sep:viteFind       a rdf:Property .
+sep:viteReplacement a rdf:Property .
+sep:vitestFind     a rdf:Property .
+sep:vitestReplacement a rdf:Property .
+sep:browserFind    a rdf:Property .
+sep:browserReplacement a rdf:Property .
+sep:headerKey      a rdf:Property .
+sep:headerValue    a rdf:Property .
+sep:importPath     a rdf:Property .
+sep:providerName   a rdf:Property .
+sep:slotFile       a rdf:Property .
+sep:routeUrl       a rdf:Property .
+sep:routeFile      a rdf:Property .
+sep:testFile       a rdf:Property .
+
+# ---------------------------------------------------------------------------
+# Alias entries: 3-way alias law (R6) + vitest browser project = 4 tables.
+# Package shape mirrors packages/avion (main/exports -> raw TS entry).
+# ---------------------------------------------------------------------------
+sep:alias-repop a sep:AliasEntry ;
+  rdfs:label "@srve/repop path alias" ;
+  sep:pkgName "@srve/repop" ;
+  sep:tsconfigPath "./packages/repop/index.ts" ;
+  sep:viteFind "@srve/repop" ;
+  sep:viteReplacement "./packages/repop/index.ts" ;
+  sep:vitestFind "@srve/repop" ;
+  sep:vitestReplacement "./packages/repop/index.ts" ;
+  sep:browserFind "@srve/repop" ;
+  sep:browserReplacement "./packages/repop/index.ts" .
+
+# ---------------------------------------------------------------------------
+# COI headers (R5): exactly two spots — vite server.headers and amplify.yml
+# customHeaders. COEP uses credentialless to avoid breaking Google Fonts.
+# ---------------------------------------------------------------------------
+sep:header-coop a sep:HeaderEntry ;
+  rdfs:label "Cross-Origin-Opener-Policy: same-origin" ;
+  sep:headerKey "Cross-Origin-Opener-Policy" ;
+  sep:headerValue "same-origin" .
+
+sep:header-coep a sep:HeaderEntry ;
+  rdfs:label "Cross-Origin-Embedder-Policy: credentialless" ;
+  sep:headerKey "Cross-Origin-Embedder-Policy" ;
+  sep:headerValue "credentialless" .
+
+# ---------------------------------------------------------------------------
+# AppProvider slot (R6): composition root at src/providers/AppProvider.tsx.
+# ---------------------------------------------------------------------------
+sep:slot-app a sep:ProviderSlot ;
+  rdfs:label "RepopProvider slot in AppProvider" ;
+  sep:importPath "@srve/repop" ;
+  sep:providerName "RepopProvider" ;
+  sep:slotFile "src/providers/AppProvider.tsx" .
+
+# ---------------------------------------------------------------------------
+# Demo route (R6 routes layout, TanStack file-based routing).
+# ---------------------------------------------------------------------------
+sep:route-repop a sep:DemoRoute ;
+  rdfs:label "Repop demo route" ;
+  sep:routeUrl "/repop" ;
+  sep:routeFile "src/routes/repop.tsx" ;
+  sep:testFile "src/routes/repop.browser.test.tsx" .

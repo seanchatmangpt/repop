@@ -1,0 +1,9 @@
+# FAIL witness 060_hook_enum_closure: MUTATION = mints cp:hnOnHover outside
+# the closed enum. Gate 060 must return >=1 row.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:fail/> .
+
+cp:hnOnFrameDecode a cp:HookName ; cp:value 1 .
+cp:hnOnReceiptSeal a cp:HookName ; cp:value 2 .
+cp:hnOnBreach a cp:HookName ; cp:value 3 .
+cp:hnOnHover a cp:HookName .

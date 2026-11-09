@@ -1,0 +1,10 @@
+# PASS witness 010_frame_field_closure: fully-specified FrameField rows.
+# Gate 010 must return 0 rows on this graph.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:pass/> .
+
+w:f1 a cp:FrameField ;
+    cp:rustName "magic" ; cp:tsName "magic" .
+
+w:f2 a cp:FrameField ;
+    cp:rustName "digest" ; cp:tsName "digest" .

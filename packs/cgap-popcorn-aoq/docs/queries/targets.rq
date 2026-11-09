@@ -1,0 +1,10 @@
+# targets.rq — DocTarget individuals (docs/targets.ttl) for docs/targets.md
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+SELECT ?docName ?template ?query ?freeze ?rowsSource
+WHERE {
+  ?t a cp:DocTarget ;
+     cp:docName ?docName ; cp:emittingTemplate ?template ;
+     cp:sourceQuery ?query ; cp:freezePolicy ?freeze ;
+     cp:rowsSource ?rowsSource .
+}
+ORDER BY ?docName

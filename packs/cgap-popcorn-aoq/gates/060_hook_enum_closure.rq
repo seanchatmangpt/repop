@@ -1,0 +1,22 @@
+# MESSAGE: hook name outside the closed HookName enum, or enum member missing
+# its wire value.
+# cp:HookName is a closed owl:oneOf enum (OnFrameDecode OnReceiptSeal
+# OnBreach). A cp:HookName-typed node that is not one of the three declared
+# individuals, or a declared member without cp:value, would mint an
+# undocumented hook into generated registries.
+# Anti-vacuity: witnesses/fail/060_hook_enum_closure.ttl mints cp:hnOnHover;
+# this gate must return >=1 row on it (court flip).
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+SELECT ?hook ?problem WHERE {
+  ?hook a cp:HookName .
+  {
+    FILTER(?hook NOT IN ( cp:hnOnFrameDecode, cp:hnOnReceiptSeal, cp:hnOnBreach ))
+    BIND("hook-outside-closed-enum" AS ?problem)
+  }
+  UNION
+  {
+    FILTER NOT EXISTS { ?hook cp:value ?v . }
+    BIND("missing-value" AS ?problem)
+  }
+}
+ORDER BY ?hook ?problem

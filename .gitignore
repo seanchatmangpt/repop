@@ -15,3 +15,9 @@ packages/worker/public/*.wasm
 # Lane build roots / scratch
 _build-*/
 *.tmp
+
+# Ephemeral tooling dirs (D10 exclusion list)
+.ggen/
+.ggen-v2/
+scratch/
+test-results/

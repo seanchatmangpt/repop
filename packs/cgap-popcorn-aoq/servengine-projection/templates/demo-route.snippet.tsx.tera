@@ -1,0 +1,20 @@
+// GGEN-GENERATED — servengine-patch projection (P19). TanStack file-route for
+// the Repop demo work-order screen at {{ row.routeUrl }}.
+// Source of truth: packs/cgap-popcorn-aoq/servengine-projection/ontology/servengine-patch.ttl
+import { createFileRoute } from "@tanstack/react-router";
+
+export const Route = createFileRoute("{{ row.routeUrl }}")({
+  component: RepopDemoPage,
+});
+
+function RepopDemoPage() {
+  return (
+    <div className="p-4">
+      <h1 className="text-xl font-semibold">Repop demo — AoQ work-order hyperplane</h1>
+      <p className="text-sm text-gray-600">
+        Worker/SAB boot (COI required; postMessage fallback active without COI).
+      </p>
+      <div id="repop-demo-root" />
+    </div>
+  );
+}

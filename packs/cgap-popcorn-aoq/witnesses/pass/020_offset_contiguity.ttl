@@ -1,0 +1,12 @@
+# PASS witness 020_offset_contiguity: contiguous 0->64 chain on one frame.
+# Gate 020 must return 0 rows on this graph.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:pass/> .
+
+w:frame a cp:WireFrame .
+
+w:f0 a cp:FrameField ;
+    cp:fieldOf w:frame ; cp:offset 0 ; cp:sizeBytes 2 ; cp:nextOffset 2 .
+
+w:f1 a cp:FrameField ;
+    cp:fieldOf w:frame ; cp:offset 2 ; cp:sizeBytes 62 ; cp:nextOffset 64 .

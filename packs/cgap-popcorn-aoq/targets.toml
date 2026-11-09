@@ -1,0 +1,14 @@
+# cgap-popcorn-aoq generation targets
+# Templates (P18) and gates (P17) are downstream lanes; this file only declares
+# which language surfaces the pack projects to.
+
+[targets]
+languages = ["rs", "ts"]
+
+[targets.rs]
+out = "crates/abi/src/generated"
+note = "generated_layout.rs — generated from ontology.ttl field tables; do not hand-edit"
+
+[targets.ts]
+out = "packages/abi/src/generated"
+note = "layouts.ts — generated TS mirror, deterministic, no wall-clock stamping"

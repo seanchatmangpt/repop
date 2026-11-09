@@ -1,0 +1,6 @@
+# FAIL witness 040_status_band: MUTATION = out-of-band word 0x5250A00A
+# (1381015562). Gate 040 must return >=1 row.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:fail/> .
+
+w:scBad a cp:StatusCode ; cp:value 1381015562 .

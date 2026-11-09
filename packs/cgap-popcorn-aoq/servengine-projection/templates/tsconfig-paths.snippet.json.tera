@@ -1,0 +1,7 @@
+{
+  "paths": {
+{%- for r in sparql_results %}
+    "{{ r.pkgName }}": ["{{ r.tsconfigPath }}"]{% if not loop.last %},{% endif %}
+{%- endfor %}
+  }
+}

@@ -1,0 +1,7 @@
+# FAIL witness 050_alg_id_closure: MUTATION = alg_id 2 (0x0002, unsupported
+# algorithm word). Gate 050 must return >=1 row.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix w: <urn:cgap-popcorn-aoq:witness:fail/> .
+
+w:alg a cp:FrameField ;
+    cp:rustName "alg_id" ; cp:value 2 .

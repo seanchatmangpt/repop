@@ -13,16 +13,14 @@
 //! `wasm32-unknown-unknown` module starts with one 64KiB page, so any
 //! arena use beyond the static data's tail of page 0 forces an early grow.
 
-use core::alloc::{GlobalAlloc, Layout};
+use core::alloc::Layout;
+#[cfg(target_arch = "wasm32")]
+use core::alloc::GlobalAlloc;
 use core::ptr;
 use core::sync::atomic::{AtomicUsize, Ordering};
 
-extern "C" {
-    /// Linker-emitted end of the static data section — arena floor.
-    static __heap_base: u8;
-}
-
 /// Page size of the wasm linear memory (64 KiB).
+#[cfg(target_arch = "wasm32")]
 const PAGE: usize = 64 * 1024;
 
 /// Current bump pointer (absolute linear-memory offset).
@@ -33,18 +31,41 @@ static BUMP: AtomicUsize = AtomicUsize::new(0);
 pub struct Arena;
 
 /// Compute the arena floor once, from the linker symbol.
+#[cfg(target_arch = "wasm32")]
 #[inline]
 fn heap_base() -> usize {
+    extern "C" {
+        /// Linker-emitted end of the static data section — arena floor.
+        static __heap_base: u8;
+    }
     // SAFETY: `__heap_base` is a linker-emitted address symbol; we only read
     // its address, never dereference.
     unsafe { &__heap_base as *const u8 as usize }
 }
 
-/// Current top of linear memory in bytes.
+/// Host twin (test-compile only): no linker symbol exists on the host; the
+/// floor is 0 and `mem_top` below is unbounded, so arena calls on host are
+/// never exercised through the growth path.
+#[cfg(not(target_arch = "wasm32"))]
+#[inline]
+fn heap_base() -> usize {
+    0
+}
+
+/// Current top of linear memory in bytes (wasm32: from the intrinsic).
+#[cfg(target_arch = "wasm32")]
 #[inline]
 fn mem_top() -> usize {
     let pages = core::arch::wasm32::memory_size(0);
     pages * PAGE
+}
+
+/// Host twin (test-compile only): unbounded so the alloc loop always takes
+/// the in-bounds path and never reaches the growth branch.
+#[cfg(not(target_arch = "wasm32"))]
+#[inline]
+fn mem_top() -> usize {
+    usize::MAX
 }
 
 impl Arena {
@@ -71,7 +92,7 @@ impl Arena {
             }
             // Need one more page; grow then retry the same loop.
             // On this rustc the intrinsic returns usize; failure = usize::MAX.
-            let prev = core::arch::wasm32::memory_grow(0, 1);
+            let prev = grow_one_page();
             if prev == usize::MAX {
                 // Documented fallback: growth refused (host cap) -> null.
                 // Caller must surface a typed failure.
@@ -98,6 +119,9 @@ impl Arena {
 }
 
 /// Global allocator for the kernel wasm module. Kernel-internal only.
+/// wasm32-only: on host builds std's allocator serves the test harness;
+/// `GLOBAL_ARENA` remains addressable as a plain static for the exports.
+#[cfg(target_arch = "wasm32")]
 unsafe impl GlobalAlloc for Arena {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         self.alloc(layout)
@@ -108,5 +132,27 @@ unsafe impl GlobalAlloc for Arena {
     }
 }
 
+#[cfg(target_arch = "wasm32")]
 #[global_allocator]
 pub static GLOBAL_ARENA: Arena = Arena;
+
+/// Host twin (test-compile only): `GLOBAL_ARENA` as a plain static, never
+/// installed as the global allocator (std owns the host test binary).
+#[cfg(not(target_arch = "wasm32"))]
+pub static GLOBAL_ARENA: Arena = Arena;
+
+/// wasm32: `memory.grow` one page; failure = usize::MAX (host-imposed cap).
+#[cfg(target_arch = "wasm32")]
+#[inline]
+fn grow_one_page() -> usize {
+    core::arch::wasm32::memory_grow(0, 1)
+}
+
+/// Host twin (test-compile only): report growth refusal (typed null at the
+/// call site). Unreachable in practice — `mem_top()` is unbounded on host,
+/// so the growth branch never executes.
+#[cfg(not(target_arch = "wasm32"))]
+#[inline]
+fn grow_one_page() -> usize {
+    usize::MAX
+}

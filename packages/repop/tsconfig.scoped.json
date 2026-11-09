@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "noEmit": true },
+  "include": [
+    "src/client-seam.ts",
+    "src/useActor.ts",
+    "src/RepopBoundary.tsx",
+    "src/useActor.test.tsx",
+    "src/RepopBoundary.test.tsx"
+  ]
+}

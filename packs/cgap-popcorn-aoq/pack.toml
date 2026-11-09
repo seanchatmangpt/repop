@@ -1,0 +1,26 @@
+[pack]
+name = "cgap-popcorn-aoq"
+version = "0.1.0"
+description = "ggen generation contract for the repop frontend surface: three pinned 64B frame layouts (IntentFrame 0x4946 / HyperplaneRegister 0x4850 / ReceiptFrame 0x5246) adopted row-for-row from kernel/crates/repop-abi/src/layout_spec.rs, closed wire enums, hyperplane invariants, and SHACL entity contracts (WorkOrder / NteRecord / GpmReading / GeofenceRegion) projected to TS via shacl-to-zod. Determinism law: generated code wins over hand-written, no wall-clock stamping."
+
+[capabilities]
+provides = ["urn:ggen:pack:cgap-popcorn-aoq"]
+
+[validation]
+gates = [
+  "gates/gate-01-parse.yaml",
+  "gates/gate-02-namespace-scope.yaml",
+  "gates/gate-03-closed-enums.yaml",
+  "gates/gate-04-field-table-contiguity.yaml",
+  "gates/gate-05-status-band.yaml",
+  "gates/gate-06-header-grounding.yaml",
+  "gates/gate-07-shacl-shapes.yaml",
+  "gates/gate-08-zero-json-boundary.yaml",
+  "gates/gate-09-determinism.yaml",
+  "gates/gate-10-parity-with-abi.yaml",
+  "gates/gate-11-mutation-leg.yaml",
+  "gates/gate-12-refusal-class.yaml",
+]
+
+# FM-PACK-014: no [dependencies] table. Pack carries no dependency resolution;
+# admission sequence handles it. Do not add [dependencies].

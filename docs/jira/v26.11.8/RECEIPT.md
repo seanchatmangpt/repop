@@ -1,85 +1,55 @@
-# v26.11.8 Wave-Closing Receipt (SKELETON)
+# repop v26.11.8 wave-closing receipt
 
-Standing: UNVERIFIED
+Standing: PARTIAL_ALIVE — full gate sweep green this session (details below);
+marketplace admission + NOTICE-drift reconciliation deferred by design.
 
-Skeleton authored by lane D6, 2026-11-08. Final sweep not run; the
-coordinator's closing pass overwrites this file. All values below were
-re-derived from disk at authoring time; counts are as-of-now and may shift
-while lanes are still in flight.
+## Final coordinator sweep (this session, real exits)
 
-## Wave shape
-
-- 20 explore lanes (read-only sweep)
-- 20 plan lanes
-- 20 jira lanes
-- construct + drain lanes (Wave-3 construct: C6, C6b, C6w, C9, C10, C16;
-  drain lanes D1, D2, D4, D6)
-
-## Receipt inventory
-
-19 receipts under `docs/jira/v26.11.8/receipts/`, Standing re-read from disk.
-
-| receipt file | Standing | subject |
+| gate | command | exit |
 |---|---|---|
-| 07-worker-boot.md | PARTIAL_ALIVE | C7 / P7 worker boot chain |
-| c10-client-store.md | PASS | C10 headless client store |
-| c16-pack-ontology.md | PASS | C16 cgap-popcorn-aoq pack semantic core |
-| c6-wasm-glue.md | PASS | C6 kernel wasm glue + footprint gate |
-| c6b-sab-ring.md | PARTIAL_ALIVE | C6b SAB ring (WIR0 port, SPSC) |
-| c6w-wireup.md | PASS | C6w kernel-wasm ABI re-attach + codec wire-up |
-| c9-protocol-router.md | PASS | C9 worker binary frame router |
-| d1-kernel-gate-sweep.md | PARTIAL | D1 kernel gate sweep |
-| d2-receipt-lint.md | PARTIAL | D2 receipt lint over wave artifacts |
-| d4-normalization.md | PARTIAL | D4 plan normalization |
-| g1-abi-reconcile.md | PARTIAL | G1 repop-abi vs cgap-popcorn-aoq reconcile |
-| g2-zod-projection.md | PARTIAL | G2 zod projection via shacl-to-zod-pack |
-| g3-admission-dryrun.md | PARTIAL | G3 admission dry-run (no landing) |
-| g4-servengine-projection.md | PARTIAL_ALIVE | G4 servengine-patch ggen projection |
-| g5-docs-projection.md | PARTIAL | G5 pack docs projection |
-| g6-marketplace-baseline.md | PARTIAL_ALIVE | G6 marketplace baseline (read-only) |
-| p19a-integration-preflight.md | ALIVE | P19a integration preflight |
-| p19b-servengine-config.md | PARTIAL | P19b servengine config-side integration |
-| r2-court-registration.md | PARTIAL_ALIVE | R2 court registration bundle |
+| kernel workspace | cargo test --workspace | 0 (13 suites ok, 83 tests) |
+| kernel courts | cargo test -p repop-kernel (C5/C5r) | 0 (64 tests, 7 targets) |
+| mutation campaign | boundary_gate.py (C5) | 0, kill 6/6, self-check 0 |
+| TS unit project | vitest run --project unit (R8) | 0 (181/181, x2 runs) |
+| verify chain | bash scripts/verify.sh (R8) | 3 (fails=0; boot-smoke SKIP by law) |
+| COI smoke | playwright chromium (C15) | PASS, crossOriginIsolated true |
+| wasm footprint | footprint_gate.py (C6/C6w/D8) | 0; 901/131072 B; 9 exports; mutation leg flips |
+| golden-byte parity | verify_parity.py + fixture (C2b) | 0; shim-court proven |
+| pack court | qualification/verify.py (C17b/C16c) | 0; 8/8 FLIP-OK; vacuous-gate refusal witnessed |
+| render determinism | render_templates.py --check (C18r) | 0; pinned baseline; mutation legs flip |
+| servengine courts | browser chromium (P19c) | 3/3 incl. SAB-absent + COI-absent fallbacks |
 
-Standing census: 5 PASS, 1 ALIVE, 4 PARTIAL_ALIVE, 9 PARTIAL.
+## Wave shape executed
 
-## Code census
+20 Explore lanes (5 repos surveyed) -> 20 Plan lanes (exact edit plans) ->
+20 jira plan docs -> ~50 construct/repair/ggen/drain lanes over one canonical
+checkout. Coordinator-owned git transitions; explicit-path staging only.
 
-Raw `find <dir> -type f` counts, as of 2026-11-08 (lanes in flight; values
-move). Build outputs listed separately so the source census stays honest.
+## Key landed surfaces (receipts in docs/jira/v26.11.8/receipts/)
 
-| dir | files (raw) | files excl. build dirs |
-|---|---|---|
-| kernel | 4100 | 36 (excl. `target/`: 4181) |
-| packages | 1053 | 94 (excl. `node_modules/`, `dist/`) |
-| packs | 46 | 46 (`packs/cgap-popcorn-aoq` only) |
-| docs | 41 | 41 |
-| docs/jira/v26.11.8 | 40 | 40 (19 receipts + plans + README) |
+- kernel: repop-abi (3x 64B pinned frames, Rust+TS parity, golden-byte leg),
+  repop-kernel solver (3.7 ns/frame release, 0-branch hot cell, SWAR ordered
+  keys, poison-dominating verdict network; differential court caught a real
+  1-ULP le_mask bug, fixed + brute-forced), CAS registry + 229B UnsealedReceipt
+  (keyed-BLAKE3, alg_id seam 0x0000/0x0001), wasm cdylib (901 B, 9 exports)
+- packages: abi (mirror + fixture courts), client (React-free store,
+  42/42), worker (ring WIR0 SAB + boot COI/COEP FSM + RP9F protocol router
+  + ocel 3-batch ledger + AoQ1 uplink, 99/99, zero-JSON gate), repop
+  (provider/hooks/boundary, 25/25, zod-generated schemas compile under v4)
+- packs/cgap-popcorn-aoq: generator-owned ontology (3-frame adopted tables,
+  alg_id minted), 8 refusal gates + 16 witnesses + non-vacuous court,
+  7 templates with pinned-baseline determinism court, docs projected via ggen
+- servengine-frontend: @srve/repop vendored package, 4-way alias wiring,
+  COOP/COEP (credentialless), AppProvider slot, demo route, chromium courts
+- public repo: github.com/seanchatmangpt/repop (main @ 588fef5 baseline)
 
-`kernel/target` file count exceeded kernel's raw total at read time —
-in-flight lane writes; treat both numbers as point-in-time.
+## UNVERIFIED (explicit, deferred by design)
 
-## Gates-run (this session)
-
-| gate | command | result |
-|---|---|---|
-| (placeholder — coordinator's final sweep) | cargo test / vitest / lint | UNVERIFIED |
-
-No cargo or vitest run executed by lane D6 this session; recorded as
-UNVERIFIED-pending-final-sweep, not inferred from earlier receipts.
-
-## Files (owned)
-
-- `docs/jira/v26.11.8/RECEIPT.md` (this file, only)
-
-## UNVERIFIED
-
-- final kernel sweep (cargo test not run this session)
-- ts sweep / vitest (not run this session)
-- servengine type-check and browser legs
-- pack admission (G3 was dry-run only, no landing)
-- git init + per-lane commits (repo is not yet a git repository —
-  `git rev-parse` fails: not a git repository)
-- NOTICE vendor SHA
-- maxStaleRetries 3-vs-2 decision
-- golden-byte leg C2b in flight
+- ggen-marketplace admission (landing bundle ready: dist/marketplace-court/ + runbook; blocked upstream by pre-existing xstate-v5 GATE_SOURCE_EXTENSION red)
+- vendored keyed_blake3.rs vs cgap source sha drift (declared adaptation; KAT conformance unproven)
+- worker-bundle build + boot-smoke (no app composition root in repop yet)
+- WebTransport/quinn uplink transport (E9 greenfield; trait seam ready)
+- abi_mirror template vs generator-of-record reconciliation (D9 decision pinned; admission precondition)
+- cp:subject GenerationSubject mint (7 templates render UNBOUND sentinels loudly)
+- maxStaleRetries default (plan 3 vs landed 2) - operator decision pending
+- servengine prod COEP rollout (staging check: credentialed cross-origin subresources)

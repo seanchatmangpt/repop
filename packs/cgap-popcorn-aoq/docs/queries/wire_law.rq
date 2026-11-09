@@ -1,0 +1,49 @@
+# wire_law.rq — field/status/seam individuals for docs/wire_law.md
+# Targets ontology v2 (scripts/gen_ontology.py): enum individuals carry NO
+# rdfs:label — names are derived from IRI local names via REPLACE(STR(?)).
+# Every column is bound on every row (COALESCE/BIND) — ggen fills forward
+# unbound OPTIONAL columns from the previous row, so partial binding is illegal.
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?ord ?sk ?kind ?name ?value ?offset ?size ?next ?wire ?band ?text ?rust ?tsname
+WHERE {
+  {
+    ?f a cp:FrameField ; cp:fieldOf cp:hdr ;
+       cp:offset ?off ; cp:sizeBytes ?sz ; cp:nextOffset ?nx ;
+       cp:cName ?cn ; rdfs:label ?lbl .
+    OPTIONAL { ?f cp:wireKind ?wk }
+    OPTIONAL { ?f cp:value ?fv }
+    OPTIONAL { ?f cp:rustName ?rn }
+    OPTIONAL { ?f cp:tsName ?tn }
+    BIND(0 AS ?ord) BIND(?off AS ?sk) BIND("field" AS ?kind)
+    BIND(?cn AS ?name) BIND(?lbl AS ?text)
+    BIND(COALESCE(REPLACE(STR(?wk), "urn:cgap-popcorn-aoq:wk", ""), "") AS ?wire)
+    BIND(COALESCE(?fv, "") AS ?value)
+    BIND(COALESCE(?rn, "") AS ?rust)
+    BIND(COALESCE(?tn, "") AS ?tsname)
+    BIND("" AS ?band)
+    BIND(?off AS ?offset) BIND(?sz AS ?size) BIND(?nx AS ?next)
+  } UNION {
+    ?c a cp:StatusConstant ; cp:constantId ?cid ; cp:value ?cv .
+    OPTIONAL { ?c cp:docBand ?db }
+    BIND(1 AS ?ord) BIND(?cv AS ?sk) BIND("constant" AS ?kind)
+    BIND(?cid AS ?name) BIND(?cv AS ?value)
+    BIND(COALESCE(?db, "") AS ?band)
+    BIND("" AS ?rust) BIND("" AS ?tsname) BIND("" AS ?wire) BIND("" AS ?text)
+    BIND(0 AS ?offset) BIND(0 AS ?size) BIND(0 AS ?next)
+  } UNION {
+    ?s a cp:StatusCode ; cp:value ?sv .
+    BIND(2 AS ?ord) BIND(?sv AS ?sk) BIND("code" AS ?kind)
+    BIND(REPLACE(STR(?s), "urn:cgap-popcorn-aoq:", "") AS ?name)
+    BIND(?sv AS ?value)
+    BIND("" AS ?band) BIND("" AS ?rust) BIND("" AS ?tsname) BIND("" AS ?wire) BIND("" AS ?text)
+    BIND(0 AS ?offset) BIND(0 AS ?size) BIND(0 AS ?next)
+  } UNION {
+    ?n a cp:SeamNote ; cp:seam ?sm .
+    BIND(3 AS ?ord) BIND(0 AS ?sk) BIND("seam" AS ?kind)
+    BIND("" AS ?name) BIND(?sm AS ?text) BIND("" AS ?value)
+    BIND("" AS ?band) BIND("" AS ?rust) BIND("" AS ?tsname) BIND("" AS ?wire)
+    BIND(0 AS ?offset) BIND(0 AS ?size) BIND(0 AS ?next)
+  }
+}
+ORDER BY ?ord ?sk ?name

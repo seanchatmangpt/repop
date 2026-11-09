@@ -1,0 +1,16 @@
+# MESSAGE: field wire kind outside the closed 7-value enum, or missing.
+# cp:WireKind is a closed owl:oneOf enum of 7 wire primitive shapes
+# (u16le u32le u64le f64le bytes8 bytes16 bytes32). A FrameField whose
+# wireKind is not one of the 7 declared individuals, or that carries no
+# wireKind at all, would render a codec row with no lawful shape.
+# Anti-vacuity: witnesses/fail/030_wire_kind_closure.ttl assigns the
+# undeclared cp:wkF32LE; this gate must return >=1 row on it (court flip).
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+SELECT ?field ?problem WHERE {
+  ?field a cp:FrameField ;
+         cp:wireKind ?k .
+  FILTER(?k NOT IN ( cp:wkU16LE, cp:wkU32LE, cp:wkU64LE, cp:wkF64LE,
+                     cp:wkBytes8, cp:wkBytes16, cp:wkBytes32 ))
+  BIND("wireKind-outside-closed-enum" AS ?problem)
+}
+ORDER BY ?field ?problem

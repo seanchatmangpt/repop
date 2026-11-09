@@ -1,0 +1,11 @@
+# Generation Targets — cgap-popcorn-aoq docs projection
+
+> GENERATED from `docs/targets.ttl` via `docs/queries/targets.rq` + `docs/templates/targets.md.tera` (ggen 26.11.5, declarative manifest `docs/ggen.toml`). Generated wins over hand-written; never hand-patch — edit `docs/targets.ttl` and re-run `cd docs && ggen sync run`.
+
+Each row is one ggen rule in `docs/ggen.toml`: one SPARQL SELECT over the ontology/targets graph, one Tera template, one generated markdown surface under `docs/`. Code targets (`crates/abi/src/generated`, `packages/abi/src/generated`, languages rs+ts) are declared in `../targets.toml` and are downstream lanes' ownership — this table covers the docs projection only.
+
+| doc | template | query | freeze policy | rows projected from |
+|---|---|---|---|---|
+{% for r in sparql_results %}
+| `{{ r.docName }}` | `{{ r.template }}` | `{{ r.query }}` | {{ r.freeze }} | {{ r.rowsSource }} |
+{% endfor %}

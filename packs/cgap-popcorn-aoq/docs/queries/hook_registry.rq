@@ -1,0 +1,17 @@
+# hook_registry.rq — HookName / ActorMessageKind closed sets for docs/hook_registry.md
+# Ontology v2: individuals carry no rdfs:label — names derived from IRI local
+# names (hn*/am* prefixes stripped). Every column bound on every row.
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+SELECT ?ord ?value ?kind ?name
+WHERE {
+  {
+    ?h a cp:HookName ; cp:value ?value .
+    BIND(0 AS ?ord) BIND("hook" AS ?kind)
+    BIND(REPLACE(STR(?h), "urn:cgap-popcorn-aoq:hn", "") AS ?name)
+  } UNION {
+    ?m a cp:ActorMessageKind ; cp:value ?value .
+    BIND(1 AS ?ord) BIND("message" AS ?kind)
+    BIND(REPLACE(STR(?m), "urn:cgap-popcorn-aoq:am", "") AS ?name)
+  }
+}
+ORDER BY ?ord ?value ?name

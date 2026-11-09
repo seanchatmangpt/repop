@@ -1,3 +1,9 @@
+// @vitest-environment node
+// Real MessageChannel port delivery + byte-exact slot compare. jsdom's
+// MessagePort does not deliver posted messages to onmessage, so bounded
+// polls hit their 2s deadline with EMPTY (2 timeouts on R4's census run).
+// MessageChannel transport is a node-level concern; run in node. No DOM
+// surface is exercised here.
 import { describe, expect, it } from "vitest";
 import { SLOT_SIZE } from "./constants.ts";
 import { stampHeader } from "./wireRing.ts";

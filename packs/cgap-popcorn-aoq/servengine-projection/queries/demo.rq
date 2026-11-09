@@ -1,0 +1,11 @@
+PREFIX sep: <https://repop.dev/ontology/servengine-patch#>
+
+# Demo route facts (one row).
+SELECT ?routeUrl ?routeFile ?testFile
+WHERE {
+  ?r a sep:DemoRoute ;
+     sep:routeUrl ?routeUrl ;
+     sep:routeFile ?routeFile ;
+     sep:testFile ?testFile .
+}
+ORDER BY ?routeUrl
