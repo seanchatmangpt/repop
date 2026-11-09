@@ -53,3 +53,11 @@ checkout. Coordinator-owned git transitions; explicit-path staging only.
 - cp:subject GenerationSubject mint (7 templates render UNBOUND sentinels loudly)
 - maxStaleRetries default (plan 3 vs landed 2) - operator decision pending
 - servengine prod COEP rollout (staging check: credentialed cross-origin subresources)
+- Divan harness + autovector-comparator bench lanes not written; solver perf
+  claims (3.7 ns/frame) rest on the min-of-7 bin only - no SIMD-vs-autovector
+  comparator exists, so no such claim was or may be made (R4 fence)
+- root package.json test slot stays wired through scripts/verify.sh (P15
+  chain: 0/1/2/3 exit law; unit+browser+courts aggregation)
+- maxStaleRetries default decided: 3 (plan facts; retry is a bounded in-line re-send, third attempt prevents premature fallback promotion under two-writer bursts). Landed in RepopBoundary.tsx:119, tsc 0, vitest 25/25. Court tests the mechanism at explicit maxStaleRetries={2}, unchanged.
+- NOTICE drift rows: left UNVERIFIED by decision - sha reconciliation without KAT proof would manufacture standing; the real fix is the keyed-BLAKE3 KAT court, deferred with it.
+- COEP prod rollout: deferred to staging - no deploy authority this session; P19b risk statement governs.

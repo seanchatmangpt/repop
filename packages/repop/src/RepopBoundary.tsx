@@ -116,7 +116,7 @@ class CrashBoundary extends Component<
 }
 
 export function RepopBoundary(props: RepopBoundaryProps): ReactNode {
-  const { pid, fallback, inline, maxStaleRetries = 2, children } = props;
+  const { pid, fallback, inline, maxStaleRetries = 3, children } = props;
   const store = useContext(RegistryContext);
   const [entry, setEntry] = useState<BoundaryState>({ refusal: null, staleSeqs: [] });
 
