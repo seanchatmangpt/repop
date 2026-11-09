@@ -51,7 +51,7 @@ checkout. Coordinator-owned git transitions; explicit-path staging only.
 - WebTransport/quinn uplink transport (E9 greenfield; trait seam ready)
 - abi_mirror template vs generator-of-record reconciliation (D9 decision pinned; admission precondition)
 - cp:subject GenerationSubject mint (7 templates render UNBOUND sentinels loudly)
-- maxStaleRetries default (plan 3 vs landed 2) - operator decision pending
+- maxStaleRetries default: DECIDED = 3 (landed; see closing decision note below)
 - servengine prod COEP rollout (staging check: credentialed cross-origin subresources)
 - Divan harness + autovector-comparator bench lanes not written; solver perf
   claims (3.7 ns/frame) rest on the min-of-7 bin only - no SIMD-vs-autovector
