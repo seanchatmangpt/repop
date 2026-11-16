@@ -1,0 +1,35 @@
+{
+  "_comment": "repop Y4 typed classification file for scripts/sleep_gate.py. The ONLY allowlist: files whose sleep primitives live inside one audited bounded poll implementation, are deadline schedulers (arming a timeout rejection, not waiting), or are macrotask yields (0ms tick). Growth of this file is a reviewed diff; every entry carries a reason. Inline per-site escapes use // SLEEP-CLASS: TIME-ADVANCE | POLL-STEP | SCHEDULING adjacent to the sleep.",
+  "files": [
+    {
+      "path": "packages/worker/src/ring/poll.ts",
+      "reason": "audited bounded-poll implementation (pollUntil): deadline-checked loop; the sleep primitive is the poll step under the deadline"
+    },
+    {
+      "path": "packages/worker/src/boot/boot-fsm.ts",
+      "reason": "audited bounded readiness poll (boot state machine): the sleep is a poll step inside the deadline-checked readiness loop"
+    },
+    {
+      "path": "packages/repop/src/useActor.test.tsx",
+      "reason": "site line 177 is `await new Promise((r) => setTimeout(r, 0))` \u2014 a macrotask yield (0ms tick), not a delay primitive; no time coordination"
+    },
+    {
+      "path": "packages/worker/src/worker-main.ts",
+      "reason": "site line 43 arms the boot DEADLINE (setTimeout arming boot-deadline-exceeded rejection) \u2014 a deadline scheduler, not a delay; the deadline itself is the observable"
+    },
+    {
+      "path": "packages/worker/src/boot/wasm-boot.browser.test.tsx",
+      "reason": "site line 23 arms the same boot-deadline rejection in the browser test harness \u2014 deadline scheduler, not a delay primitive"
+    },
+    {
+      "path": "packages/worker/src/uplink/transport.test.ts",
+      "reason": "site line 150 is a single 10ms bounded retry step inside the fake transport's receive helper (check() || resolve(null), bounded to one retry) \u2014 bounded poll step"
+    }
+  ],
+  "functions": [
+    {
+      "name": "pollUntil",
+      "reason": "bounded poll step (deadline-checked pollUntil helper, ring/poll.ts + boot/boot-fsm.ts)"
+    }
+  ]
+}

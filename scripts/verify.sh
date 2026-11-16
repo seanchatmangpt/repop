@@ -100,6 +100,48 @@ else
     fi
 fi
 
+# --- GATE sleep-gate: no-sleep law over packages/ (Y4, smalt port) ----------
+if python3 scripts/sleep_gate.py; then
+    gate_pass sleep-gate
+else
+    rc=$?
+    if [ "$rc" -eq 2 ]; then gate_infra sleep-gate "gate internal error"; else gate_fail sleep-gate; fi
+fi
+
+# --- GATE sleep-gate-court: non-vacuity court (BEFORE/AFTER flip + restore) -
+if [ "${REPOP_SKIP_COURTS:-}" = "1" ]; then
+    gate_skip sleep-gate-court "REPOP_SKIP_COURTS=1 (operator opt-out)"
+elif bash scripts/shim_court/sleep_gate_court.sh; then
+    gate_pass sleep-gate-court
+else
+    rc=$?
+    if [ "$rc" -eq 3 ]; then
+        gate_skip sleep-gate-court "court skipped loud (see court output)"
+    else
+        gate_fail sleep-gate-court
+    fi
+fi
+
+# --- GATE standing-lint: receipt standing-line law (Y4, smalt port) ---------
+# Census-optional: REPOP_STANDING_LINT=1 enforces; default is a loud census
+# (exit 0) because the existing receipt corpus predates the lint (Y4 lane:
+# census only, fix none — enforcement flips on once the census is clean).
+if python3 scripts/receipt_standing_lint.py --census; then
+    if [ "${REPOP_STANDING_LINT:-}" = "1" ]; then
+        if python3 scripts/receipt_standing_lint.py; then
+            gate_pass standing-lint
+        else
+            rc=$?
+            if [ "$rc" -eq 2 ]; then gate_infra standing-lint "gate internal error"; else gate_fail standing-lint; fi
+        fi
+    else
+        gate_skip standing-lint "census mode (REPOP_STANDING_LINT=1 to enforce; census above)"
+    fi
+else
+    rc=$?
+    if [ "$rc" -eq 2 ]; then gate_infra standing-lint "gate internal error"; else gate_fail standing-lint; fi
+fi
+
 # --- classification ---------------------------------------------------------
 if [ "$FAILS" -gt 0 ]; then
     OVERALL=1

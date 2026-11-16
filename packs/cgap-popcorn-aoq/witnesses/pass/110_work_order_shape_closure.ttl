@@ -1,0 +1,31 @@
+# PASS witness 110_work_order_shape_closure: fleet family shapes with every
+# property-path IRI grounded in a declared rdf:Property + plain-literal range.
+# Gate 110 must return 0 rows on this graph.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cp:orderId a rdf:Property ; rdfs:range xsd:string .
+cp:orderStatus a rdf:Property ; rdfs:range xsd:string .
+cp:dispatchState a rdf:Property ; rdfs:range xsd:string .
+cp:contractorId a rdf:Property ; rdfs:range xsd:string .
+cp:committedCost a rdf:Property ; rdfs:range xsd:decimal .
+cp:boundsNte a rdf:Property ; rdfs:range xsd:integer .
+cp:boundsGpm a rdf:Property ; rdfs:range xsd:decimal .
+cp:boundsGeofence a rdf:Property ; rdfs:range xsd:integer .
+
+cp:wShape1 a sh:NodeShape ; sh:targetClass cp:FleetWorkOrder ; sh:property
+    [ sh:path cp:orderId ; sh:datatype xsd:string ] ,
+    [ sh:path cp:orderStatus ; sh:datatype xsd:string ] ,
+    [ sh:path cp:dispatchState ; sh:datatype xsd:string ] .
+
+cp:wShape2 a sh:NodeShape ; sh:targetClass cp:DispatchIntent ; sh:property
+    [ sh:path cp:contractorId ; sh:datatype xsd:string ] ,
+    [ sh:path cp:committedCost ; sh:datatype xsd:decimal ] .
+
+cp:wShape3 a sh:NodeShape ; sh:targetClass cp:HyperplaneBounds ; sh:property
+    [ sh:path cp:boundsNte ; sh:datatype xsd:integer ] ,
+    [ sh:path cp:boundsGpm ; sh:datatype xsd:decimal ] ,
+    [ sh:path cp:boundsGeofence ; sh:datatype xsd:integer ] .

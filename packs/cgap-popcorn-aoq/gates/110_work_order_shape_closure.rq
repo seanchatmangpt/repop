@@ -1,0 +1,30 @@
+# MESSAGE: fleet work-order shape datatype path not grounded in a declared
+# property. Every property constraint on a fleet work-order family shape
+# (FleetWorkOrder / DispatchIntent / HyperplaneBounds) that declares
+# sh:datatype must resolve to an rdf:Property whose rdfs:range EQUALS that
+# datatype — the aic data-shapes-only pattern: structure without execution
+# authority. A datatype path with no matching declaration is a re-mint
+# surface: the shape would close over a term no module declares. Object
+# links (constraints without sh:datatype, e.g. cp:boundsOf) are out of
+# scope — they ground to classes, not datatype properties.
+# Anti-vacuity: witnesses/fail/110_work_order_shape_closure.ttl retypes
+# cp:orderStatus's range to xsd:boolean (mismatching the shape's
+# xsd:string); this gate must return >=1 row on it (court flip).
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?shape ?path WHERE {
+  ?shape a sh:NodeShape ;
+         sh:targetClass ?cls ;
+         sh:property ?p .
+  ?p sh:path ?path ;
+     sh:datatype ?dt .
+  FILTER(?cls IN (cp:FleetWorkOrder, cp:DispatchIntent, cp:HyperplaneBounds))
+  FILTER NOT EXISTS {
+    ?path a rdf:Property ;
+          rdfs:range ?dt .
+  }
+}
+ORDER BY ?shape ?path

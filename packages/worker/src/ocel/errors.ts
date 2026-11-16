@@ -13,13 +13,14 @@ export type OcelErrorCode =
   | "CHAIN_MISMATCH"
   | "NOT_SEALED"
   | "ALREADY_SEALED"
-  | "BUFFER_TOO_SHORT";
+  | "BUFFER_TOO_SHORT"
+  | "LF_IN_FIELD";
 
 export interface OcelError {
   readonly code: OcelErrorCode;
   readonly message: string;
-  readonly observed?: number;
-  readonly expected?: number;
+  readonly observed?: number | string;
+  readonly expected?: number | string;
   readonly activity?: string;
 }
 

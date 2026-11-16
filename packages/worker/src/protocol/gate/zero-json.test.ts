@@ -8,7 +8,14 @@
  * that refuses clean code) is a vacuous gate and fails this test.
  */
 
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -22,9 +29,25 @@ function violatesZeroJson(text: string): boolean {
 }
 
 describe("zero-json gate", () => {
-  const files = ["frame.ts", "frameKind.ts", "router.ts", "routerError.ts", "correlation.ts", "seq.ts", "refusal.ts", "transport.ts", "index.ts"];
+  /**
+   * Allowlist: protocol files where JSON serialization is lawful. The A2A
+   * bridge (a2a.ts, seam S1) is the single named exception — every OTHER
+   * protocol source (enumerated from the directory, so a new file cannot
+   * silently escape the scan) must pass the predicate.
+   */
+  const ALLOWLIST = new Set(["a2a.ts"]);
+  const files = readdirSync(PROTOCOL_DIR).filter(
+    (f) => f.endsWith(".ts") && !ALLOWLIST.has(f),
+  );
+
+  it("gate allowlist is non-empty and only names the A2A boundary", () => {
+    expect([...ALLOWLIST]).toEqual(["a2a.ts"]);
+    // the exception must exist, or the allowlist is stale
+    expect(existsSync(join(PROTOCOL_DIR, "a2a.ts"))).toBe(true);
+  });
 
   it("no protocol source uses JSON serialization", () => {
+    expect(files.length).toBeGreaterThan(0);
     for (const f of files) {
       const text = readFileSync(join(PROTOCOL_DIR, f), "utf8");
       expect(violatesZeroJson(text), `${f} uses JSON`).toBe(false);

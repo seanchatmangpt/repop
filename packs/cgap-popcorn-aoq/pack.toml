@@ -1,7 +1,15 @@
 [pack]
 name = "cgap-popcorn-aoq"
 version = "0.1.0"
-description = "ggen generation contract for the repop frontend surface: three pinned 64B frame layouts (IntentFrame 0x4946 / HyperplaneRegister 0x4850 / ReceiptFrame 0x5246) adopted row-for-row from kernel/crates/repop-abi/src/layout_spec.rs, closed wire enums, hyperplane invariants, and SHACL entity contracts (WorkOrder / NteRecord / GpmReading / GeofenceRegion) projected to TS via shacl-to-zod. Determinism law: generated code wins over hand-written, no wall-clock stamping."
+description = "ggen generation contract for the repop frontend surface: three pinned 64B frame layouts (IntentFrame 0x4946 / HyperplaneRegister 0x4850 / ReceiptFrame 0x5246) adopted row-for-row from kernel/crates/repop-abi/src/layout_spec.rs, closed wire enums, hyperplane invariants, and SHACL entity contracts (WorkOrder / NteRecord / GpmReading / GeofenceRegion) projected to TS via shacl-to-zod. Determinism law: generated code wins over hand-written, no wall-clock stamping.
+
+# Cross-repo vocabulary law (X14 / FM-PACK-014): reference-not-re-mint. The
+# fleet work-order family module (ontology/work-order-shapes.ttl) cites the
+# acp: chaos-harness-reference pattern (harness-referenced chaos contracts,
+# no harness logic re-minted here) and the aic: data-shapes-only pattern
+# (SHACL structure without execution authority; fleet repos pin their own
+# value ranges) as prose annotations only — NO [dependencies] table, and the
+# pack URN stands lawfully under [capabilities] above.
 
 [capabilities]
 provides = ["urn:ggen:pack:cgap-popcorn-aoq"]

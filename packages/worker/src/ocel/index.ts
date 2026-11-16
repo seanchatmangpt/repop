@@ -2,3 +2,4 @@
 export * from "./errors.ts";
 export * from "./vocab.ts";
 export * from "./batch.ts";
+export * from "./chain.ts";

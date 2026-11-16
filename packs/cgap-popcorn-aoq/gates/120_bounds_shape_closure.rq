@@ -1,0 +1,32 @@
+# MESSAGE: hyperplane-bounds contract incomplete. The cp:HyperplaneBounds
+# shape must carry all three demo fields (boundsNte / boundsGpm /
+# boundsGeofence) with sh:minCount 1 AND a sh:pattern declaring a finite
+# digit class — the plain-literal law: bounds constrain values to digit
+# form (never inf/nan). A missing field, or a field whose pattern literal
+# carries no digit class (REGEX on "0-9"), is a violation.
+# Anti-vacuity: witnesses/fail/120_bounds_shape_closure.ttl strips the
+# sh:pattern from cp:boundsGpm; this gate must return >=1 row on it
+# (court flip).
+PREFIX cp: <urn:cgap-popcorn-aoq:>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+SELECT ?field ?reason WHERE {
+  VALUES ?field { cp:boundsNte cp:boundsGpm cp:boundsGeofence }
+  ?shape a sh:NodeShape ;
+         sh:targetClass cp:HyperplaneBounds .
+  OPTIONAL {
+    ?shape sh:property ?p .
+    ?p sh:path ?field ;
+       sh:minCount 1 .
+    OPTIONAL {
+      ?p sh:pattern ?pat .
+      FILTER(REGEX(STR(?pat), "0-9"))
+    }
+  }
+  BIND(IF(!BOUND(?p),
+          "bounds field absent (minCount 1 required)",
+          IF(!BOUND(?pat),
+             "bounds field present but no finite-value pattern",
+             "ok")) AS ?reason)
+  FILTER(?reason != "ok")
+}
+ORDER BY ?field ?reason

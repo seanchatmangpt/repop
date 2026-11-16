@@ -1,0 +1,113 @@
+# work-order-shapes.ttl — fleet work-order family module (lane Y7, X14 finding).
+#
+# CONCAT-STAGED, NEVER MERGED INTO ontology.ttl (FM-CONFIG-003): the generator
+# scripts/gen_ontology.py owns ontology.ttl wholesale; this module rides the
+# docs projection's concat mechanism (docs/ggen.toml:3-5 precedent):
+#   cat ../ontology.ttl ../ontology/work-order-shapes.ttl ./targets.ttl > build/graph.ttl
+#
+# Cross-repo vocabulary law (X14 / FM-PACK-014): reference-not-re-mint. The
+# fleet contract cites acp: chaos-harness-reference and aic: data-shapes-only
+# as prose annotations in pack.toml — no [dependencies], no foreign IRIs minted
+# here. URN standing remains lawful under pack.toml [capabilities] only.
+#
+# SCOPE LAW (aic: data-shapes-only pattern): these shapes carry STRUCTURE only.
+# Values are plain literals and fleet repos pin their own value ranges — no
+# execution authority lives here. This is why the demo's value constraints
+# (NTE<=800, GPM>=0.22, geofence<=200) are NOT repeated in the fleet shapes:
+# the range pins in ontology.ttl (cp:WorkOrderShape et al.) are the pack-local
+# contract; this module is the family contract for downstream fleet repos.
+#
+# CLASS-NAMING DEVIATION (disclosed, gate-080 law): cp:WorkOrder already
+# carries the single entity contract cp:WorkOrderShape in ontology.ttl, and
+# gate 080 enforces one shape per class. The family WorkOrder contract
+# therefore targets cp:FleetWorkOrder (rdfs:subClassOf cp:WorkOrder) — a
+# specialization, not a second shape on the same class. DispatchIntent and
+# HyperplaneBounds are fresh classes, no collision.
+
+@prefix cp:  <urn:cgap-popcorn-aoq:> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------------
+# Classes
+# ---------------------------------------------------------------------------
+
+cp:FleetWorkOrder a owl:Class ;
+    rdfs:subClassOf cp:WorkOrder ;
+    rdfs:label "fleet work order" ;
+    rdfs:comment "Family-domain work order. Specializes the pack entity class cp:WorkOrder so the fleet contract can be closed without minting a second shape on cp:WorkOrder (gate 080 law: one shape per class)." .
+
+cp:DispatchIntent a owl:Class ;
+    rdfs:label "dispatch intent" ;
+    rdfs:comment "Fleet-domain dispatch intent: contractor identity plus committed cost, structure only." .
+
+cp:HyperplaneBounds a owl:Class ;
+    rdfs:label "hyperplane bounds" ;
+    rdfs:comment "Fleet-domain bounds record: NTE / GPM / geofence fields per the demo, linked to the pack hyperplane invariant surface. Structure only — fleet repos pin ranges." .
+
+# ---------------------------------------------------------------------------
+# Datatype properties (plain-literal values; ranges are structure, not pins)
+# ---------------------------------------------------------------------------
+
+cp:orderId a rdf:Property ; rdfs:domain cp:FleetWorkOrder ; rdfs:range xsd:string .
+cp:orderStatus a rdf:Property ; rdfs:domain cp:FleetWorkOrder ; rdfs:range xsd:string .
+cp:dispatchState a rdf:Property ; rdfs:domain cp:FleetWorkOrder ; rdfs:range xsd:string .
+
+cp:contractorId a rdf:Property ; rdfs:domain cp:DispatchIntent ; rdfs:range xsd:string .
+cp:committedCost a rdf:Property ; rdfs:domain cp:DispatchIntent ; rdfs:range xsd:decimal .
+
+cp:boundsNte a rdf:Property ; rdfs:domain cp:HyperplaneBounds ; rdfs:range xsd:integer .
+cp:boundsGpm a rdf:Property ; rdfs:domain cp:HyperplaneBounds ; rdfs:range xsd:decimal .
+cp:boundsGeofence a rdf:Property ; rdfs:domain cp:HyperplaneBounds ; rdfs:range xsd:integer .
+
+# HyperplaneInvariant link: bounds carry a pack hyperplane invariant surface
+# (the cp:Hyperplane individuals in ontology.ttl carry the demo invariants
+# NTE 800 / GPM 0.22 / geofence 200m; cp:HyperplaneRegister frames pin them
+# on the wire). Reference, not re-mint.
+cp:boundsOf a rdf:Property ;
+    rdfs:domain cp:HyperplaneBounds ;
+    rdfs:range cp:Hyperplane ;
+    rdfs:label "carries hyperplane invariant surface" .
+
+# ---------------------------------------------------------------------------
+# NodeShapes (sh:closed; value ranges intentionally absent — aic pattern)
+# ---------------------------------------------------------------------------
+
+cp:FleetWorkOrderShape a sh:NodeShape ;
+    sh:targetClass cp:FleetWorkOrder ;
+    sh:closed true ;
+    rdfs:seeAlso cp:WorkOrderShape ;
+    sh:property
+        [ sh:path cp:orderId ;       sh:datatype xsd:string ;
+          sh:minCount 1 ; sh:maxCount 1 ] ,
+        [ sh:path cp:orderStatus ;   sh:datatype xsd:string ;
+          sh:minCount 1 ; sh:maxCount 1 ] ,
+        [ sh:path cp:dispatchState ; sh:datatype xsd:string ;
+          sh:minCount 1 ; sh:maxCount 1 ] .
+
+cp:DispatchIntentShape a sh:NodeShape ;
+    sh:targetClass cp:DispatchIntent ;
+    sh:closed true ;
+    sh:property
+        [ sh:path cp:contractorId ;  sh:datatype xsd:string ;
+          sh:minCount 1 ; sh:maxCount 1 ] ,
+        [ sh:path cp:committedCost ; sh:datatype xsd:decimal ;
+          sh:minCount 1 ; sh:maxCount 1 ] .
+
+cp:HyperplaneBoundsShape a sh:NodeShape ;
+    sh:targetClass cp:HyperplaneBounds ;
+    sh:closed true ;
+    sh:property
+        [ sh:path cp:boundsNte ;      sh:datatype xsd:integer ;
+          sh:minCount 1 ; sh:maxCount 1 ;
+          sh:pattern "^[0-9.]+$" ] ,
+        [ sh:path cp:boundsGpm ;      sh:datatype xsd:decimal ;
+          sh:minCount 1 ; sh:maxCount 1 ;
+          sh:pattern "^[0-9.]+$" ] ,
+        [ sh:path cp:boundsGeofence ; sh:datatype xsd:integer ;
+          sh:minCount 1 ; sh:maxCount 1 ;
+          sh:pattern "^[0-9.]+$" ] ,
+        [ sh:path cp:boundsOf ;       sh:minCount 0 ; sh:maxCount 1 ] .

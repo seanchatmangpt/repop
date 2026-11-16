@@ -1,0 +1,27 @@
+{
+  "name": "@repop/substrate",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "repop-probe-daemon": "./src/bin/probe-cli.ts",
+    "repop-refire": "./src/bin/refire-cli.ts",
+    "repop-contract-emit": "./src/bin/contract-emit-cli.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "probe": "node src/bin/probe-cli.ts",
+    "refire": "node src/bin/refire-cli.ts",
+    "contract-emit": "node src/bin/contract-emit-cli.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

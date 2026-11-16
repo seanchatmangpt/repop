@@ -1,0 +1,356 @@
+{
+  "entries": {
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/07-worker-boot.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/C12-useActor-boundary.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c10-client-store.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c11-repop-package.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c15-test-infra.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c16-pack-ontology.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c16b-adoption.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c16c-algid-mint.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c17b-gates.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c17r-path-hardening.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c18-pack-templates.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c18r-determinism.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c20r-ocel-uplink.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c2b-golden-byte.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c4-cas-receipt-kernel.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c5-kernel-courts.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c5r-courts-repoint.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c6-wasm-glue.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c6b-sab-ring.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c6br-ring-repair.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c6w-wireup.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/c9-protocol-router.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/d1-kernel-gate-sweep.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/d10-commit2-manifest.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/d2-receipt-lint.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/d4-normalization.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/d7-vendor-sha-pin.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/d8-workspace-gate.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/d9-generator-of-record.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/g1-abi-reconcile.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/g2-zod-projection.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/g2b-landing.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/g3-admission-dryrun.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/g4-servengine-projection.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/g5-docs-projection.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/g6-marketplace-baseline.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/p19a-integration-preflight.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/p19b-servengine-config.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/p19c-demo-route.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r2-court-registration.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r3-ts-repair.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r4-backfill-c11-provider-hooks.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r4-backfill-c12-boundary.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r4-backfill-c15-test-infra.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r4-backfill-c17-pack-gates.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r4-backfill-c18-templates.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r4-backfill-c20-uplink-ocel-demo.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r4-backfill-c4-state-receipt.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r4-backfill-c5-kernel-courts.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r4-census.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r5-hook-residuals.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r6-zod-dep.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r7-worker-barrel.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/r8-uplink-ring-fix.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/y1-wasm-allowlist.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.8/receipts/y2-ocel-seal-tier.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/CHURN-REDERIVE.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/DAEMON-WIRE.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/SUBSTRATE-1.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/i1-a2a-bridge.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/i2-ocel-export.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/i3exp-wasmex-load.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/r1-blake3-kat.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/s3-wasmex-facade.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/y12-durable-store.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/y13-time-gate-reconcile.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/y3-geofence-default.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PASS"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/y4-smalt-imports.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/y5-sjira-mapping.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    },
+    "/Users/sac/repop/docs/jira/v26.11.9-integration/receipts/y7-pack-family.md": {
+      "ok": true,
+      "reason": "",
+      "standing": "PARTIAL_ALIVE"
+    }
+  },
+  "generated_by": "scripts/receipt_standing_lint.py",
+  "standing_map_hash": "f195e481aaa6d723"
+}

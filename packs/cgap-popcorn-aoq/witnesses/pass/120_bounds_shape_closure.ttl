@@ -1,0 +1,13 @@
+# PASS witness 120_bounds_shape_closure: bounds shape carries all three
+# demo fields, minCount 1, each with a finite-value sh:pattern.
+# Gate 120 must return 0 rows on this graph.
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+cp:wBoundsShape a sh:NodeShape ; sh:targetClass cp:HyperplaneBounds ; sh:property
+    [ sh:path cp:boundsNte ; sh:minCount 1 ;
+      sh:pattern "^[0-9.]+$" ] ,
+    [ sh:path cp:boundsGpm ; sh:minCount 1 ;
+      sh:pattern "^[0-9.]+$" ] ,
+    [ sh:path cp:boundsGeofence ; sh:minCount 1 ;
+      sh:pattern "^[0-9.]+$" ] .

@@ -11,35 +11,19 @@
  *   object field — embedding is structurally impossible.
  * - dictionary-encoded enums: activities, object types and qualifiers are
  *   u16 indices into closed vocabularies with typed out-of-vocab refusals.
- * - rolling FNV-1a32 chain digest computed ONLY in seal() (durability
- *   event), never on the hot path.
+ * - blake3 parent-chained seal digest computed ONLY in seal() (durability
+ *   event), never on the hot path. FNV-1a32 is NOT the tamper tier; it
+ *   survives only as the ring's transport-tier CRC analog (see abi).
  */
 
-import { FNV_OFFSET_BASIS, FNV_PRIME, fnv1a32 } from "@repop/abi";
 import { ocelErr, ok, type OcelResult } from "./errors.ts";
 import { activityId } from "./vocab.ts";
+import { blake3Hex, chainGenesis, chainField } from "./chain.ts";
 
-/* ---------- rolling FNV-1a32 chain ---------- */
+export { blake3, blake3Hex } from "./chain.ts";
 
-/** Advance a rolling FNV-1a32 state over `bytes`; returns the new state. */
-export function fnvChain(h: number, bytes: Uint8Array): number {
-  let hash = h >>> 0;
-  for (let i = 0; i < bytes.length; i++) {
-    hash ^= bytes[i]!;
-    hash = Math.imul(hash, FNV_PRIME) >>> 0;
-  }
-  return hash >>> 0;
-}
-
-/** Initial chain state. */
-export function fnvInit(): number {
-  return FNV_OFFSET_BASIS;
-}
-
-/** Whole-buffer FNV-1a32 (thin wrapper over the ABI codec). */
-export function fnvOf(bytes: Uint8Array): number {
-  return fnv1a32(bytes);
-}
+/** Seal digest: hex-encoded 32-byte blake3 chain (fixed-width 64 chars). */
+export type SealDigest = string;
 
 /* ---------- vocabularies ---------- */
 
@@ -130,7 +114,7 @@ export class EventsBatch {
   #activity: Uint16Array = new Uint16Array(0);
   #n = 0;
   #sealed = false;
-  #chain = 0;
+  #chain: SealDigest = "";
 
   get length(): number {
     return this.#n;
@@ -148,6 +132,11 @@ export class EventsBatch {
   /** Appended event id of row `i`. */
   eventIdAt(i: number): number {
     return this.#eventId[i] ?? 0;
+  }
+
+  /** Appended timestamp (epoch ms) of row `i` (I2 export accessor). */
+  tsAt(i: number): number {
+    return this.#ts[i] ?? 0;
   }
 
   /**
@@ -191,42 +180,43 @@ export class EventsBatch {
     return ok(undefined);
   }
 
-  /** Seal: rolling FNV chain over all column bytes. Once only. */
-  seal(): OcelResult<number> {
+  /** Seal: blake3 parent-chained digest over all column bytes. Once only. */
+  seal(): OcelResult<SealDigest> {
     if (this.#sealed) {
       return ocelErr("ALREADY_SEALED", "events batch already sealed");
     }
     this.#sealed = true;
-    this.#chain = this.chainDigest(fnvInit());
+    this.#chain = this.chainDigest();
     return ok(this.#chain);
   }
 
   /**
-   * Verify: recompute the rolling chain over the live column bytes and
+   * Verify: recompute the blake3 chain over the live column bytes and
    * compare against the sealed digest. Any post-seal byte flip anywhere in
    * any column flips the recomputed digest — CHAIN_MISMATCH refusal.
+   * Single pass, stateless: recompute derives from columns + genesis only.
    */
   verify(): OcelResult<void> {
     if (!this.#sealed) {
       return ocelErr("NOT_SEALED", "verify before seal");
     }
-    const recomputed = this.chainDigest(fnvInit());
+    const recomputed = this.chainDigest();
     if (recomputed !== this.#chain) {
       return ocelErr("CHAIN_MISMATCH", "post-seal mutation detected", {
         observed: recomputed,
-        expected: this.#chain,
+        expected: this.#chain, // SealDigest: set at seal(), empty only pre-seal
       });
     }
     return ok(undefined);
   }
 
-  /** Rolling FNV-1a32 over the live columns, in column order. */
-  chainDigest(h: number): number {
-    let acc = h;
-    acc = fnvOf(u8Bytes(this.#eventId.subarray(0, this.#n)));
-    acc = fnvChain(acc, u8Bytes(this.#ts.subarray(0, this.#n)));
-    acc = fnvChain(acc, u8Bytes(this.#activity.subarray(0, this.#n)));
-    return acc;
+  /** blake3 chain over the live columns, in canonical column order. */
+  chainDigest(): SealDigest {
+    let parent = chainGenesis();
+    parent = chainField(parent, u8Bytes(this.#eventId.subarray(0, this.#n)));
+    parent = chainField(parent, u8Bytes(this.#ts.subarray(0, this.#n)));
+    parent = chainField(parent, u8Bytes(this.#activity.subarray(0, this.#n)));
+    return blake3Hex(parent);
   }
 }
 
@@ -238,7 +228,7 @@ export class ObjectsBatch {
   #objectType: Uint16Array = new Uint16Array(0);
   #n = 0;
   #sealed = false;
-  #chain = 0;
+  #chain: SealDigest = "";
 
   get length(): number {
     return this.#n;
@@ -270,13 +260,13 @@ export class ObjectsBatch {
     return ok(undefined);
   }
 
-  /** Seal: rolling FNV chain over all column bytes. Once only. */
-  seal(): OcelResult<number> {
+  /** Seal: blake3 parent-chained digest over all column bytes. Once only. */
+  seal(): OcelResult<SealDigest> {
     if (this.#sealed) {
       return ocelErr("ALREADY_SEALED", "objects batch already sealed");
     }
     this.#sealed = true;
-    this.#chain = this.chainDigest(fnvInit());
+    this.#chain = this.chainDigest();
     return ok(this.#chain);
   }
 
@@ -285,22 +275,32 @@ export class ObjectsBatch {
     if (!this.#sealed) {
       return ocelErr("NOT_SEALED", "verify before seal");
     }
-    const recomputed = this.chainDigest(fnvInit());
+    const recomputed = this.chainDigest();
     if (recomputed !== this.#chain) {
       return ocelErr("CHAIN_MISMATCH", "post-seal mutation detected", {
         observed: recomputed,
-        expected: this.#chain,
+        expected: this.#chain, // SealDigest: set at seal(), empty only pre-seal
       });
     }
     return ok(undefined);
   }
 
-  /** Rolling FNV-1a32 over the live columns, in column order. */
-  chainDigest(h: number): number {
-    let acc = h;
-    acc = fnvOf(u8Bytes(this.#objectId.subarray(0, this.#n)));
-    acc = fnvChain(acc, u8Bytes(this.#objectType.subarray(0, this.#n)));
-    return acc;
+  /** blake3 chain over the live columns, in canonical column order. */
+  chainDigest(): SealDigest {
+    let parent = chainGenesis();
+    parent = chainField(parent, u8Bytes(this.#objectId.subarray(0, this.#n)));
+    parent = chainField(parent, u8Bytes(this.#objectType.subarray(0, this.#n)));
+    return blake3Hex(parent);
+  }
+
+  /** Appended object id of row `i` (I2 export accessor). */
+  objectIdAt(i: number): number {
+    return this.#objectId[i] ?? 0;
+  }
+
+  /** Dictionary index of the object type of row `i` (I2 export accessor). */
+  objectTypeIdAt(i: number): number {
+    return this.#objectType[i] ?? 0;
   }
 }
 
@@ -316,7 +316,7 @@ export class E2OBatch {
   #qualifier: Uint16Array = new Uint16Array(0);
   #n = 0;
   #sealed = false;
-  #chain = 0;
+  #chain: SealDigest = "";
 
   get length(): number {
     return this.#n;
@@ -360,13 +360,13 @@ export class E2OBatch {
     return ok(undefined);
   }
 
-  /** Seal: rolling FNV chain over all column bytes. Once only. */
-  seal(): OcelResult<number> {
+  /** Seal: blake3 parent-chained digest over all column bytes. Once only. */
+  seal(): OcelResult<SealDigest> {
     if (this.#sealed) {
       return ocelErr("ALREADY_SEALED", "e2o batch already sealed");
     }
     this.#sealed = true;
-    this.#chain = this.chainDigest(fnvInit());
+    this.#chain = this.chainDigest();
     return ok(this.#chain);
   }
 
@@ -375,23 +375,38 @@ export class E2OBatch {
     if (!this.#sealed) {
       return ocelErr("NOT_SEALED", "verify before seal");
     }
-    const recomputed = this.chainDigest(fnvInit());
+    const recomputed = this.chainDigest();
     if (recomputed !== this.#chain) {
       return ocelErr("CHAIN_MISMATCH", "post-seal mutation detected", {
         observed: recomputed,
-        expected: this.#chain,
+        expected: this.#chain, // SealDigest: set at seal(), empty only pre-seal
       });
     }
     return ok(undefined);
   }
 
-  /** Rolling FNV-1a32 over the live columns, in column order. */
-  chainDigest(h: number): number {
-    let acc = h;
-    acc = fnvOf(u8Bytes(this.#eventId.subarray(0, this.#n)));
-    acc = fnvChain(acc, u8Bytes(this.#objectId.subarray(0, this.#n)));
-    acc = fnvChain(acc, u8Bytes(this.#qualifier.subarray(0, this.#n)));
-    return acc;
+  /** blake3 chain over the live columns, in canonical column order. */
+  chainDigest(): SealDigest {
+    let parent = chainGenesis();
+    parent = chainField(parent, u8Bytes(this.#eventId.subarray(0, this.#n)));
+    parent = chainField(parent, u8Bytes(this.#objectId.subarray(0, this.#n)));
+    parent = chainField(parent, u8Bytes(this.#qualifier.subarray(0, this.#n)));
+    return blake3Hex(parent);
+  }
+
+  /** Appended event id of e2o row `i` (I2 export accessor). */
+  eventIdAt(i: number): number {
+    return this.#eventId[i] ?? 0;
+  }
+
+  /** Appended object id of e2o row `i` (I2 export accessor). */
+  objectIdAt(i: number): number {
+    return this.#objectId[i] ?? 0;
+  }
+
+  /** Dictionary index of the qualifier of e2o row `i` (I2 export accessor). */
+  qualifierIdAt(i: number): number {
+    return this.#qualifier[i] ?? 0;
   }
 }
 

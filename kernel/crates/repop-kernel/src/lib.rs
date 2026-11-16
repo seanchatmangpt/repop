@@ -11,6 +11,7 @@
 #![deny(unsafe_code)]
 
 pub mod boundary;
+pub mod digest;
 pub mod pin;
 pub mod solver;
 

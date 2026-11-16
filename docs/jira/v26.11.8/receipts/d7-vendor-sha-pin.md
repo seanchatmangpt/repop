@@ -54,3 +54,34 @@ files are under `kernel/crates/repop-kernel/src/vendor/`.
 NOTICE URN pinned: `urn:repop:vendor:cgap:ede726ff31e95a7e27ea931390f3ae847ef4d262`.
 Diff verified single-line. Manifest above. Standing PARTIAL_ALIVE: pin + census
 done; byte-identity of the vendored body UNVERIFIED (declared adaptation).
+
+## RESOLUTION note (2026-11-08, R1 KAT substitution lane)
+
+Standing: PARTIAL_ALIVE (drift rows resolved by substitution; vendor module
+retained as licensed surface)
+
+The two UNVERIFIED drift rows are resolved by substitution, not by proving
+byte-identity: repop-kernel now carries a digest seam
+(`kernel/crates/repop-kernel/src/digest.rs`, trait `Digest256`) defaulting
+all receipt/state call sites to the upstream `blake3 = "1"` crate (the same
+major pin affidavit-core's ChainHasher backing hasher uses), with the
+vendored copy retained as the D7 vendor surface behind
+`VendoredKeyedBlake3`. KAT court `tests/digest_kat.rs` (official BLAKE3
+vectors, b3sum 1.8.5 reference; same vectors as Y2's chain.test.ts):
+
+- Upstream impl: PASSES all vectors (empty, abc, 2500-byte multi-chunk
+  unkeyed; keyed 0/abc/1000/2500 with the padded spec demo key).
+- Vendored copy: passes empty/abc (single-block scope) but FAILS the
+  1000-byte keyed vector (produces
+  11694e91afb72b33091847397e4a942f45dc965561dfe12dcbc06cc14760d129) and
+  diverges from upstream at n=65 — the multi-block path is
+  spec-nonconformant. This is the drift-row resolution evidence; it is
+  PINNED as an assert_ne! witness in tests/digest_kat.rs (goes red if the
+  vendor module is later fixed, forcing re-triage), not silently relaxed.
+- Kernel call sites (receipt.rs, state.rs) default to upstream through the
+  seam; whole-workspace `cargo test --workspace` exit 0.
+
+Standing note per law: this RESOLUTION note does not claim byte-identity
+(closed vocabulary: PARTIAL_ALIVE — pin + census + KAT-substitution done;
+vendor body byte-identity remains UNVERIFIED, now consequence-free because
+the default digest path is upstream KAT-proven).

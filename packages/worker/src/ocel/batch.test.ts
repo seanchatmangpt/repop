@@ -55,7 +55,10 @@ describe("seal / verify roundtrip", () => {
     const b = seededEvents(4);
     const s = b.seal();
     expect(s.ok).toBe(true);
-    if (s.ok) expect(typeof s.value).toBe("number");
+    if (s.ok) {
+      expect(typeof s.value).toBe("string");
+      expect(s.value).toMatch(/^[0-9a-f]{64}$/); // blake3 seal tier
+    }
     expect(b.sealed).toBe(true);
     expect(b.verify().ok).toBe(true);
   });

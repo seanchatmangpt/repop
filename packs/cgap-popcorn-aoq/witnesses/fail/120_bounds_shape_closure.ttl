@@ -1,0 +1,12 @@
+# FAIL witness 120_bounds_shape_closure: MUTATION = cp:boundsGpm loses its
+# sh:pattern (bounds value no longer constrained to finite digit form).
+# Gate 120 must return >=1 row on this graph (court flip).
+@prefix cp: <urn:cgap-popcorn-aoq:> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+cp:wBoundsShape a sh:NodeShape ; sh:targetClass cp:HyperplaneBounds ; sh:property
+    [ sh:path cp:boundsNte ; sh:minCount 1 ;
+      sh:pattern "^[0-9.]+$" ] ,
+    [ sh:path cp:boundsGpm ; sh:minCount 1 ] ,
+    [ sh:path cp:boundsGeofence ; sh:minCount 1 ;
+      sh:pattern "^[0-9.]+$" ] .

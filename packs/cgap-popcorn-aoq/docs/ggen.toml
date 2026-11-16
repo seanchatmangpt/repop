@@ -1,9 +1,12 @@
 # ggen.toml — docs projection manifest (lane G5).
 # Invocation (two steps, both deterministic):
 #   cd packs/cgap-popcorn-aoq/docs
-#   cat ../ontology.ttl targets.ttl > build/graph.ttl && ggen sync run
+#   cat ../ontology.ttl ../ontology/work-order-shapes.ttl targets.ttl > build/graph.ttl && ggen sync run
 # (source = single path only on 26.11.5 — sequence rejected, FM-CONFIG-003 —
-# so the ontology + targets graph is concat-staged into build/graph.ttl first.)
+# so the ontology + fleet work-order family module + targets graph is
+# concat-staged into build/graph.ttl first. Family module added by lane Y7
+# (X14 finding): fleet work-order NodeShapes, concat-staged, never merged
+# into the generator-owned ontology.ttl.)
 # Declarative-rules schema (schema 1). Regenerates the three docs/ surfaces
 # deterministically from ../ontology.ttl + ./targets.ttl. No wall-clock
 # stamping (pack determinism law).

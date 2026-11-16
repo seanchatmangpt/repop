@@ -5,3 +5,8 @@ edition = "2021"
 license = "Apache-2.0"
 
 [dependencies]
+# BLAKE3 via the upstream crate (same major pin as affidavit-core's
+# ChainHasher backing hasher); kernel call sites reach it through the
+# `digest` seam (src/digest.rs), with the vendored single-chunk copy
+# retained as D7 vendor surface and differential fallback.
+blake3 = "1"

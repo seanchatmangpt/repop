@@ -12,7 +12,7 @@
 #![no_std]
 
 use crate::refuse::Refusal;
-use crate::vendor::keyed_blake3;
+use crate::digest;
 use core::sync::atomic::{AtomicU64, Ordering};
 
 /// Registry capacity: 4096 entity slots (P3 plan, cache-padded registry).
@@ -284,7 +284,7 @@ fn parent(left: &[u8; 32], right: &[u8; 32]) -> [u8; 32] {
     let mut buf = [0u8; 64];
     buf[..32].copy_from_slice(left);
     buf[32..].copy_from_slice(right);
-    keyed_blake3::hash_unkeyed(&buf)
+    digest::digest(&buf)
 }
 
 /// C5 court contract (tests/cas_differential_courts.rs pins the free

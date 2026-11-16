@@ -11,7 +11,7 @@
 #![no_std]
 
 
-use crate::vendor::keyed_blake3;
+use crate::digest;
 
 /// Delta domain tag: 8-byte versioned domain separator (cgap §3.1 parity —
 /// `"CGAPDLT1"` keeps DeltaS encodings wire-identical across cgap/repop).
@@ -230,7 +230,7 @@ impl UnsealedReceipt {
         let mut covered = [0u8; DELTA_LEN + PHI_LEASE_LEN];
         covered[..DELTA_LEN].copy_from_slice(&delta_bytes);
         covered[DELTA_LEN..].copy_from_slice(&phi_bytes);
-        let expected = keyed_blake3::keyed_digest(&phi.issued_root, &covered)
+        let expected = digest::digest_keyed(&phi.issued_root, &covered)
             .map_err(|_| ReceiptError::DigestMismatch)?;
         if expected != digest {
             return Err(ReceiptError::DigestMismatch);
@@ -253,14 +253,14 @@ pub fn receipt_digest(delta: &DeltaS, phi: &PhiLease) -> [u8; DIGEST_LEN] {
     let mut covered = [0u8; DELTA_LEN + PHI_LEASE_LEN];
     covered[..DELTA_LEN].copy_from_slice(&delta.to_bytes());
     covered[DELTA_LEN..].copy_from_slice(&phi.to_bytes());
-    keyed_blake3::keyed_digest(&phi.issued_root, &covered)
+    digest::digest_keyed(&phi.issued_root, &covered)
         .expect("192 bytes is within the single-chunk keyed path")
 }
 
 /// Merkle leaf over an encoded receipt (cgap admissions-root law: UNkeyed
 /// hash of the full-receipt encoding, so the leaf is identity-bound).
 pub fn receipt_leaf(receipt: &UnsealedReceipt) -> [u8; 32] {
-    keyed_blake3::hash_unkeyed(&receipt.to_bytes())
+    digest::digest(&receipt.to_bytes())
 }
 
 /// Fold leaf hashes into an admissions root (cgap `admissions_root` parity:
@@ -317,7 +317,7 @@ fn parent(left: &[u8; 32], right: &[u8; 32]) -> [u8; 32] {
     let mut buf = [0u8; 64];
     buf[..32].copy_from_slice(left);
     buf[32..].copy_from_slice(right);
-    keyed_blake3::hash_unkeyed(&buf)
+    digest::digest(&buf)
 }
 
 /// Emission: digest the delta under the lease epoch, stamp the CGRU header.
