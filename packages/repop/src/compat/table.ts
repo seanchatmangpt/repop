@@ -1,6 +1,7 @@
 /**
- * compat/table: @fnox/table shim. Headless table whose rows are the array in
- * the repop entity slice `entityId`. Read-only; sorting is local view state.
+ * compat/table: headless table whose rows are the array in the repop entity
+ * slice `entityId`. Read-only; sorting is local view state.
+ * Identity: repop/compat (see FFB-IDENTITY-FORK.md).
  */
 
 import { useMemo, useState } from "react";

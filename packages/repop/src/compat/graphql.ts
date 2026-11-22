@@ -1,7 +1,8 @@
 /**
- * compat/graphql: @fnox/graphql shim. Read-only: a query document plus
- * variables resolves to an entity slice in the repop projection store
- * (entity id graphqlEntityId). No network, no mutation, no third-party client.
+ * compat/graphql: read-only — a query document plus variables resolves to
+ * an entity slice in the repop projection store (entity id graphqlEntityId).
+ * No network, no mutation, no third-party client.
+ * Identity: repop/compat (see FFB-IDENTITY-FORK.md).
  */
 
 import { useRepopSelector } from "../useRepopSelector.js";
@@ -50,5 +51,5 @@ export function useGraphQL<T = unknown>(
 
 /** Mutations are refused: the projection client is read-only. */
 export function useGraphQLMutation(): never {
-  throw new Error("@fnox/graphql: read-only shim, mutations are refused");
+  throw new Error("repop/compat graphql: read-only shim, mutations are refused");
 }

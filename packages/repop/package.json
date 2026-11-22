@@ -2,12 +2,21 @@
   "name": "repop",
   "version": "0.1.0",
   "private": true,
+  "description": "Private workspace React client for repop. FFB shims live at repop/compat only — NOT GA, not published npm, no @fnox/* package identity.",
   "type": "module",
   "sideEffects": false,
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./compat": "./src/compat/index.ts",
+    "./compat/useQuery": "./src/compat/useQuery.ts",
+    "./compat/useMutation": "./src/compat/useMutation.ts",
+    "./compat/useSWR": "./src/compat/useSWR.ts",
+    "./compat/graphql": "./src/compat/graphql.ts",
+    "./compat/table": "./src/compat/table.ts",
+    "./compat/store": "./src/compat/store.ts",
+    "./compat/dbClient": "./src/compat/dbClient.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

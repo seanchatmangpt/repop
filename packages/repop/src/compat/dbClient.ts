@@ -1,7 +1,7 @@
 /**
- * compat/dbClient: @fnox/db-client shim. Read-only table-style access
- * (get / list / subscribe) over a real RepopClient snapshot. Writes are
- * refused; there is no connection to a database.
+ * compat/dbClient: read-only table-style access (get / list / subscribe)
+ * over a real RepopClient snapshot. Writes are refused; there is no
+ * connection to a database. Identity: repop/compat (see FFB-IDENTITY-FORK.md).
  */
 
 import { useRepopClient } from "../useRepopClient.js";
@@ -24,7 +24,7 @@ export interface DbClient {
 }
 
 const refuse = (): never => {
-  throw new Error("@fnox/db-client: read-only shim, writes are refused");
+  throw new Error("repop/compat dbClient: read-only shim, writes are refused");
 };
 
 export function createDbClient(client: RepopClient): DbClient {

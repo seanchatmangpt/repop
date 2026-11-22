@@ -2,6 +2,7 @@
  * compat/useMutation: react-query-shaped mutation result. The mutationFn is
  * expected to write through the repop client (commitIntent); subscribed
  * useQuery hooks rerender from the store. No third-party query library.
+ * Identity: repop/compat (see FFB-IDENTITY-FORK.md).
  */
 
 import { useCallback, useRef, useState } from "react";

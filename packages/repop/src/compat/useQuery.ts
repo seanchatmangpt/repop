@@ -1,6 +1,7 @@
 /**
  * compat/useQuery: react-query-shaped result over the repop selector client.
  * Not a wrapper over any third-party query library.
+ * Identity: repop/compat (see FFB-IDENTITY-FORK.md).
  *
  * Source of truth is the repop store: the entity slice keyed by
  * queryEntityId(queryKey). When no slice exists the queryFn result is held

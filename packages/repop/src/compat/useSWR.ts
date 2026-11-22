@@ -1,6 +1,7 @@
 /**
  * compat/useSWR: swr-shaped useSWR(key, fetcher) over the repop selector client.
  * Not a wrapper over the swr library.
+ * Identity: repop/compat (see FFB-IDENTITY-FORK.md).
  *
  * - Store slice swrEntityId(key) seeds data until the first fetch settles;
  *   fetched data then takes precedence (so mutate(key) is never stale).

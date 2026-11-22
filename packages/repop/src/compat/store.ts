@@ -1,6 +1,7 @@
 /**
  * compat/store: zustand-style create() drop-in plus a repop-slice selector.
  * Not a wrapper over zustand.
+ * Identity: repop/compat (see FFB-IDENTITY-FORK.md).
  *
  * - create(initializer) returns a hook `useStore(selector?, equalityFn?)` with
  *   getState/setState/subscribe attached. A component re-renders only when its
