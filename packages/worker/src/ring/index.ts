@@ -9,3 +9,5 @@ export * from "./sabRing.ts";
 export * from "./sabTransport.ts";
 export * from "./postMessageTransport.ts";
 export * from "./poll.ts";
+/** R-02: fixed-size shared WebAssembly.Memory + arena partition. */
+export * from "./fixedSharedMemory.ts";
