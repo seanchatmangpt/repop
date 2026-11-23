@@ -10,8 +10,8 @@
  *      the admit gate exists) — then our allocator refuses that shape.
  *   4. Arena partition stays under the 32 MiB mobile ceiling.
  *
- * Does NOT prove 250k-row soak EXIT 0 — that is the exact next verifier
- * (see docs/jira/v26.11.8/receipts/r02-fixed-shared-memory.md).
+ * Unit court only. 250k-row soak lives in
+ * `fixedSharedMemory.soak.test.ts` (see receipt r02-fixed-shared-memory.md).
  */
 
 import { describe, expect, it } from "vitest";
